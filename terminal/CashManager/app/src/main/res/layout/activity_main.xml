@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    tools:context=".MainActivity">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:text="@string/authTitle"
+        android:textSize="10pt">
+    </TextView>
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/EditTextServerId"
+                android:layout_height="wrap_content"
+                android:hint="@string/authServerId"
+                android:inputType="number"
+                android:layout_width="fill_parent">
+            </EditText>
+            <EditText
+                android:id="@+id/EditTextServerPassword"
+                android:layout_height="wrap_content"
+                android:hint="@string/authServerPassword"
+                android:inputType="textPassword"
+                android:layout_width="fill_parent">
+            </EditText>
+            <Button
+                android:id="@+id/ButtonSubmitLogin"
+                android:layout_height="wrap_content"
+                android:text="@string/authSubmit"
+                android:onClick="login"
+                android:layout_width="fill_parent">
+            </Button>
+        </LinearLayout>
+
+    <EditText
+        android:id="@+id/EditTextConnectedStatus"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:hint="@string/connected_status">
+    </EditText>
+</RelativeLayout>

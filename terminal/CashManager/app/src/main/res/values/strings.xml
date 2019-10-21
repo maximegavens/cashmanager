@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">CashManager</string>
+    <string name="hello_world">HelloWorld</string>
+    <string name="authTitle">Connect to server</string>
+    <string name="authServerId">Server ID</string>
+    <string name="authServerPassword">Server Password</string>
+    <string name="authSubmit">Submit</string>
+    <string name="activity2">Activity2</string>
+    <string name="testColor">Select your favorite color</string>
+    <string name="preference_title">preference title</string>
+    <string name="preference_summary">preference summary</string>
+    <string name="preference_status">refused</string>
+    <string name="connected_status">refused</string>
+</resources>
