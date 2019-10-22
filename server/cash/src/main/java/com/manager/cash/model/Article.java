@@ -1,0 +1,34 @@
+package com.manager.cash.model;
+
+public class Article {
+    private String name;
+    private double price;
+
+    public Article() {
+        this.name = "";
+        this.price = -1;
+    }
+
+    public Article(String name, float price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+
+}
