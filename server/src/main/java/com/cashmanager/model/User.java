@@ -1,20 +1,35 @@
 package com.cashmanager.model;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
-@SpringBootApplication
+@Entity
+@Table(name = "userapp")
 public class User {
-    private int id_user;
+
+    @Id
+    @GeneratedValue(generator = "id_generator") //@GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "id_generator", sequenceName = "id_sequence", initialValue = 100)
+    @Column(name = "id_user", nullable = false, updatable = false)
+    private long id_user;
+
+    @Column(name = "full_name")
+    @NotBlank(message = "Name is mandatory")
     private String full_name;
+
+    @Column(name = "email")
+    @NotBlank(message = "Email is mandatory")
     private String email;
-    private String Password;
-    private boolean connected;
 
-    public User() {
-        this.connected = false;
-    }
+    @Column(name = "password")
+    @NotBlank(message = "Password is mandatory")
+    private String password;
 
-    public int getId_user() {
+    //public User(int id_user) {
+    //    this.id_user = id_user;
+    //}
+
+    public long getId_user() {
         return id_user;
     }
 
@@ -39,22 +54,10 @@ public class User {
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
-    }
-
-    public boolean isConnected() {
-        return connected;
-    }
-
-    public void setConnected() {
-        this.connected = true;
-    }
-
-    public void setDeconnected() {
-        this.connected = false;
+        this.password = password;
     }
 }
