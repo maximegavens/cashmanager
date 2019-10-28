@@ -1,0 +1,4 @@
+#Tue Oct 08 15:07:48 CEST 2019
+base.0=/home/maxime/AndroidStudioProjects/CashManager/app/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
