@@ -37,6 +37,21 @@ public class UserService {
         return (us); // please replace by exception
     }
 
+    /*public User UpdateUser(User us) {
+        Optional<User> user = repository.findById(us.getId_user());
+
+        if (user.isPresent()) {
+            User newuser = user.get();
+            newuser.setFull_name(us.getFull_name());
+            newuser.setEmail(us.getEmail());
+            newuser.setPassword(us.getPassword());
+
+            newuser = repository.save(us);
+            return newuser;
+        }
+        return us;
+    }*/
+
     public void deleteUser(Long id) {
         Optional<User> user = repository.findById(id);
         if (user.isPresent())
