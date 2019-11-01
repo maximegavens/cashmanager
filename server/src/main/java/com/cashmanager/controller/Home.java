@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/market")
-public class main_page {
+public class Home {
 
     @Autowired
     ProductService service;

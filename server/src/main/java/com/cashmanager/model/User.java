@@ -9,7 +9,7 @@ public class User {
 
     @Id
     @GeneratedValue(generator = "id_generator") //@GeneratedValue(strategy = GenerationType.AUTO)
-    @SequenceGenerator(name = "id_generator", sequenceName = "id_sequence", initialValue = 100)
+    @SequenceGenerator(name = "id_generator", sequenceName = "id_sequence")
     @Column(name = "id_user", nullable = false, updatable = false)
     private long id_user;
 
@@ -25,15 +25,11 @@ public class User {
     @NotBlank(message = "Password is mandatory")
     private String password;
 
-    //public User(int id_user) {
-    //    this.id_user = id_user;
-    //}
-
     public long getId_user() {
         return id_user;
     }
 
-    public void setId_user(int id_user) {
+    public void setId_user(long id_user) {
         this.id_user = id_user;
     }
 

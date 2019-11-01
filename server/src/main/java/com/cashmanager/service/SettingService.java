@@ -1,7 +1,7 @@
 package com.cashmanager.service;
 
 import com.cashmanager.model.User;
-import com.cashmanager.repository.UserRepository;
+import com.cashmanager.repository.SettingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class SettingService {
 
     @Autowired
-    UserRepository repository;
+    SettingRepository repository;
 
     public List<User> getAllUser() {
         List<User> listuser = repository.findAll();
@@ -27,17 +27,7 @@ public class UserService {
         return user.get(); //please add exception
     }
 
-    public User createUser(User us) {
-        Optional<User> user = repository.findById(us.getId_user());
-
-        if (!user.isPresent()) {
-            us = repository.save(us);
-            return (us);
-        }
-        return (us); // please replace by exception
-    }
-
-    /*public User UpdateUser(User us) {
+    public User UpdateUser(User us) {
         Optional<User> user = repository.findById(us.getId_user());
 
         if (user.isPresent()) {
@@ -50,7 +40,7 @@ public class UserService {
             return newuser;
         }
         return us;
-    }*/
+    }
 
     public void deleteUser(Long id) {
         Optional<User> user = repository.findById(id);
