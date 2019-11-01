@@ -1,20 +1,19 @@
 package com.cashmanager.controller;
 
 import com.cashmanager.model.User;
-import com.cashmanager.service.SettingService;
+import com.cashmanager.service.SettingAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/setting")
-public class Setting {
+public class SettingAdmin {
 
     @Autowired
-    SettingService service;
+    SettingAdminService service;
 
     /*@GetMapping
     public ResponseEntity<List<User>> getAllUser() {
@@ -28,11 +27,9 @@ public class Setting {
         return new ResponseEntity<User>(user, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<User> updateUser( @PathVariable("id") long id, User us ) {
-        us.setId_user(id);
-        User user = service.UpdateUser(us);
-        return new ResponseEntity<User>(user, new HttpHeaders(), HttpStatus.OK);
+    @PostMapping
+    public boolean updateUser(User us ) {
+        return service.UpdateUser(us);
     }
 
     @DeleteMapping("/{id}")

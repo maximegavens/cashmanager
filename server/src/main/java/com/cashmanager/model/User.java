@@ -1,6 +1,7 @@
 package com.cashmanager.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Entity
@@ -19,6 +20,7 @@ public class User {
 
     @Column(name = "email")
     @NotBlank(message = "Email is mandatory")
+    @Email
     private String email;
 
     @Column(name = "password")
@@ -27,10 +29,6 @@ public class User {
 
     public long getId_user() {
         return id_user;
-    }
-
-    public void setId_user(long id_user) {
-        this.id_user = id_user;
     }
 
     public String getFull_name() {

@@ -27,14 +27,15 @@ public class ProductService {
         return prod.get(); //please add exception
     }
 
-    public Product createProduct(Product pr) {
-        Optional<Product> prod = repository.findById(pr.getId_product());
-
-        if (!prod.isPresent()) {
-            pr = repository.save(pr);
-            return (pr);
+    public String createProduct(Product pr) {
+        if (!repository.existsProductByName(pr.getName())) {
+            Product prod = new Product();
+            prod.setName(pr.getName());
+            prod.setPrice(pr.getPrice());
+            repository.save(prod);
+            return "Success creating";
         }
-        return (pr); // please replace by exception
+        return "Error: This user already exists";
     }
 
     public void deleteProduct(Long id) {

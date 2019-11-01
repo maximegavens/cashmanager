@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SettingRepository extends JpaRepository<User, Long> {   //CrudRepository
+public interface SettingAdminRepository extends JpaRepository<User, Long> {   //CrudRepository
 }

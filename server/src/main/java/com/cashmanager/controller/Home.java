@@ -30,9 +30,8 @@ public class Home {
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct( Product us ) {
-        Product prod = service.createProduct(us);
-        return new ResponseEntity<Product>(prod, new HttpHeaders(), HttpStatus.OK);
+    public String createProduct( Product us ) {
+        return service.createProduct(us);
     }
 
     @DeleteMapping("/{id}")
