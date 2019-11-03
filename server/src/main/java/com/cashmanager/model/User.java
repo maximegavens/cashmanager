@@ -15,16 +15,16 @@ public class User {
     private long id_user;
 
     @Column(name = "full_name")
-    @NotBlank(message = "Name is mandatory")
+    //@NotBlank(message = "Name is mandatory")
     private String full_name;
 
     @Column(name = "email")
-    @NotBlank(message = "Email is mandatory")
+    //@NotBlank(message = "Email is mandatory")
     @Email
     private String email;
 
     @Column(name = "password")
-    @NotBlank(message = "Password is mandatory")
+    //@NotBlank(message = "Password is mandatory")
     private String password;
 
     public long getId_user() {

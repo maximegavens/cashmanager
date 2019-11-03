@@ -28,15 +28,4 @@ public class Home {
         Product prod = service.getProductById(id);
         return new ResponseEntity<Product>(prod, new HttpHeaders(), HttpStatus.OK);
     }
-
-    @PostMapping
-    public String createProduct( Product us ) {
-        return service.createProduct(us);
-    }
-
-    @DeleteMapping("/{id}")
-    public HttpStatus deleteProduct(@PathVariable("id") long id) {
-        service.deleteProduct(id);
-        return HttpStatus.FORBIDDEN;
-    }
 }
