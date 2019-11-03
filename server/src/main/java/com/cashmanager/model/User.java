@@ -1,6 +1,7 @@
 package com.cashmanager.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Entity
@@ -9,32 +10,25 @@ public class User {
 
     @Id
     @GeneratedValue(generator = "id_generator") //@GeneratedValue(strategy = GenerationType.AUTO)
-    @SequenceGenerator(name = "id_generator", sequenceName = "id_sequence", initialValue = 100)
+    @SequenceGenerator(name = "id_generator", sequenceName = "id_sequence")
     @Column(name = "id_user", nullable = false, updatable = false)
     private long id_user;
 
     @Column(name = "full_name")
-    @NotBlank(message = "Name is mandatory")
+    //@NotBlank(message = "Name is mandatory")
     private String full_name;
 
     @Column(name = "email")
-    @NotBlank(message = "Email is mandatory")
+    //@NotBlank(message = "Email is mandatory")
+    @Email
     private String email;
 
     @Column(name = "password")
-    @NotBlank(message = "Password is mandatory")
+    //@NotBlank(message = "Password is mandatory")
     private String password;
-
-    //public User(int id_user) {
-    //    this.id_user = id_user;
-    //}
 
     public long getId_user() {
         return id_user;
-    }
-
-    public void setId_user(int id_user) {
-        this.id_user = id_user;
     }
 
     public String getFull_name() {

@@ -1,7 +1,7 @@
 package com.cashmanager.service;
 
 import com.cashmanager.model.User;
-import com.cashmanager.repository.UserRepository;
+import com.cashmanager.repository.SettingAdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class SettingAdminService {
 
     @Autowired
-    UserRepository repository;
+    SettingAdminRepository repository;
 
     public List<User> getAllUser() {
         List<User> listuser = repository.findAll();
@@ -27,6 +27,7 @@ public class UserService {
         return user.get(); //please add exception
     }
 
+<<<<<<< HEAD:server/src/main/java/com/cashmanager/service/UserService.java
     public User createUser(User us) {
         Optional<User> user = repository.findById(us.getId_user());
         System.out.println(us);
@@ -34,24 +35,19 @@ public class UserService {
         if (!user.isPresent()) {
             us = repository.save(us);
             return (us);
+=======
+    public Boolean UpdateUser(User us) {
+        if (repository.existsById(us.getId_user())) {
+            User user = repository.getOne(us.getId_user());
+            user.setFull_name(us.getFull_name());
+            user.setEmail(us.getEmail());
+            user.setPassword(us.getPassword());
+            repository.save(user);
+            return true;
+>>>>>>> 7a276c1fd20612c233582b1b87a8945c41513869:server/src/main/java/com/cashmanager/service/SettingAdminService.java
         }
-        return (us); // please replace by exception
+        return false;
     }
-
-    /*public User UpdateUser(User us) {
-        Optional<User> user = repository.findById(us.getId_user());
-
-        if (user.isPresent()) {
-            User newuser = user.get();
-            newuser.setFull_name(us.getFull_name());
-            newuser.setEmail(us.getEmail());
-            newuser.setPassword(us.getPassword());
-
-            newuser = repository.save(us);
-            return newuser;
-        }
-        return us;
-    }*/
 
     public void deleteUser(Long id) {
         Optional<User> user = repository.findById(id);

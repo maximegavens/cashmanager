@@ -1,6 +1,7 @@
 package com.cashmanager.controller;
 
 import com.cashmanager.model.Product;
+import com.cashmanager.service.ManagementService;
 import com.cashmanager.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -11,28 +12,29 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/market")
-public class main_page {
+@RequestMapping("/stock")
+public class Management {
 
     @Autowired
-    ProductService service;
+    ManagementService service;
+
+    @Autowired
+    ProductService productService;
 
     @GetMapping
     public ResponseEntity<List<Product>> getAllProduct() {
-        List<Product> list_prod = service.getAllProduct();
+        List<Product> list_prod = productService.getAllProduct();
         return new ResponseEntity<List<Product>>(list_prod, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable("id") long id) {
-        Product prod = service.getProductById(id);
-        return new ResponseEntity<Product>(prod, new HttpHeaders(), HttpStatus.OK);
+    @PostMapping
+    public String createProduct(Product prod) {
+        return service.createProduct(prod);
     }
 
-    @PostMapping
-    public ResponseEntity<Product> createProduct( Product us ) {
-        Product prod = service.createProduct(us);
-        return new ResponseEntity<Product>(prod, new HttpHeaders(), HttpStatus.OK);
+    @PostMapping("/edit")
+    public boolean updateUser(Product prod) {
+        return service.UpdateUser(prod);
     }
 
     @DeleteMapping("/{id}")
