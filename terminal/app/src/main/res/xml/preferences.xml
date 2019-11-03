@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:key="preference_key"
+        android:title="@string/preference_title"
+        android:summary="@string/preference_summary"/>
+    <Preference
+        android:key="connected_status"
+        android:title="@string/connected_status"/>
+
+</androidx.preference.PreferenceScreen>

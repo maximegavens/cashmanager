@@ -29,6 +29,7 @@ public class UserService {
 
     public User createUser(User us) {
         Optional<User> user = repository.findById(us.getId_user());
+        System.out.println(us);
 
         if (!user.isPresent()) {
             us = repository.save(us);

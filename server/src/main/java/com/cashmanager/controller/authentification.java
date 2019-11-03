@@ -30,6 +30,9 @@ public class authentification {
 
     @PostMapping
     public ResponseEntity<User> createUser( User us ) {
+        System.out.println(us.getEmail());
+        System.out.println(us.getFull_name());
+        System.out.println(us.getPassword());
         User user = service.createUser(us);
         return new ResponseEntity<User>(user, new HttpHeaders(), HttpStatus.OK);
     }
