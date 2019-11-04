@@ -36,10 +36,10 @@ public class SettingAdmin {
         System.out.println(us.getPassword());
         User user = service.createUser(us);
         return new ResponseEntity<User>(user, new HttpHeaders(), HttpStatus.OK);
-
-    public boolean updateUser(User us) {
-        return service.UpdateUser(us);
     }
+    /*public boolean updateUser(User us) {
+        return service.UpdateUser(us);
+    }*/
 
     @DeleteMapping("/{id}")
     public HttpStatus deleteUser(@PathVariable("id") long id) {

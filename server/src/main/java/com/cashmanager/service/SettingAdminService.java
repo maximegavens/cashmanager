@@ -27,7 +27,6 @@ public class SettingAdminService {
         return user.get(); //please add exception
     }
 
-<<<<<<< HEAD:server/src/main/java/com/cashmanager/service/UserService.java
     public User createUser(User us) {
         Optional<User> user = repository.findById(us.getId_user());
         System.out.println(us);
@@ -35,7 +34,10 @@ public class SettingAdminService {
         if (!user.isPresent()) {
             us = repository.save(us);
             return (us);
-=======
+        }
+        return null;
+    }
+
     public Boolean UpdateUser(User us) {
         if (repository.existsById(us.getId_user())) {
             User user = repository.getOne(us.getId_user());
@@ -44,7 +46,6 @@ public class SettingAdminService {
             user.setPassword(us.getPassword());
             repository.save(user);
             return true;
->>>>>>> 7a276c1fd20612c233582b1b87a8945c41513869:server/src/main/java/com/cashmanager/service/SettingAdminService.java
         }
         return false;
     }

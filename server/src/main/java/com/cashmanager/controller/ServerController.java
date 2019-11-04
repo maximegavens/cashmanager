@@ -3,7 +3,6 @@ package com.cashmanager.controller;
 import com.cashmanager.model.Server;
 import com.cashmanager.model.User;
 import com.cashmanager.service.ServerService;
-import com.cashmanager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

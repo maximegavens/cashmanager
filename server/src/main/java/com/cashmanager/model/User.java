@@ -10,21 +10,21 @@ public class User {
 
     @Id
     @GeneratedValue(generator = "id_generator") //@GeneratedValue(strategy = GenerationType.AUTO)
-    @SequenceGenerator(name = "id_generator", sequenceName = "id_sequence")
+    @SequenceGenerator(name = "id_generator", sequenceName = "id_sequence", initialValue = 100)
     @Column(name = "id_user", nullable = false, updatable = false)
     private long id_user;
 
     @Column(name = "full_name")
-    //@NotBlank(message = "Name is mandatory")
+    @NotBlank(message = "Name is mandatory")
     private String full_name;
 
     @Column(name = "email")
-    //@NotBlank(message = "Email is mandatory")
+    @NotBlank(message = "Email is mandatory")
     @Email
     private String email;
 
     @Column(name = "password")
-    //@NotBlank(message = "Password is mandatory")
+    @NotBlank(message = "Password is mandatory")
     private String password;
 
     public long getId_user() {

@@ -15,16 +15,18 @@ public class Product {
     private long id_product;
 
     @Column(name = "name")
-    //@NotBlank(message = "Name is mandatory")
+    @NotBlank(message = "Name is mandatory")
     private String name;
 
     @Column(name = "price")
-    //@NotBlank(message = "Price is mandatory")
+    @NotBlank(message = "Price is mandatory")
     private double price;
 
     public Long getId_product() {
         return id_product;
     }
+
+    public void setId_product(Long id_product) { this.id_product = id_product; }
 
     public String getName() {
         return name;
