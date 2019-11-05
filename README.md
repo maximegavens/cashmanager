@@ -12,5 +12,5 @@ docker-compose build && docker-compose up
 ```
 
 This command will do multiple things:
-..* Launch the api server which will be available on http://localhost:8080
-..* Build the android app which will be available on http://localhost:8081/client.apk
+ - Launch the api server which will be available on http://localhost:8080
+ - Build the android app which will be available on http://localhost:8081/client.apk
