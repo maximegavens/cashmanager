@@ -10,12 +10,11 @@ object RetrofitClient {
 
     private val AUTH = "Basic" + Base64.encodeToString("gavens:123456".toByteArray(), Base64.NO_WRAP)
 
-    private const val BASE_URL = "http://192.168.1.15:8080" // ip house
-
 /*
-    private const val BASE_URL = "http://192.168.43.209:8080" // ip phone
+    private const val BASE_URL = "http://192.168.1.15:8080" // ip house
 */
 
+    private const val BASE_URL = "http://192.168.43.209:8080" // ip phone
 
     private val okHttpClient = OkHttpClient.Builder().connectTimeout(15, TimeUnit.SECONDS).build()
 

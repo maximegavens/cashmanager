@@ -7,12 +7,6 @@
     android:padding="8dp"
     tools:context=".view.MainActivity">
 
-<!--    <data>
-        <variable
-            android:name="loginViewModel"
-            android:type="com.example.cashmanager.viewmodel.LoginViewModel" />
-    </data>-->
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,13 +43,20 @@
                 android:onClick="login"
                 android:layout_width="fill_parent">
             </Button>
+            <Button
+                android:id="@+id/secondView"
+                android:layout_height="wrap_content"
+                android:text="@string/cashRegisterAccess"
+                android:onClick="accessSecondView"
+                android:layout_width="fill_parent">
+            </Button>
         </LinearLayout>
 
-    <EditText
-        android:id="@+id/EditTextConnectedStatus"
+    <TextView
+        android:id="@+id/ViewTextConnectedStatus"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:hint="@string/connected_status">
-    </EditText>
+    </TextView>
 </RelativeLayout>

@@ -11,4 +11,18 @@
     <string name="preference_summary">preference summary</string>
     <string name="preference_status">refused</string>
     <string name="connected_status">refused</string>
+    <string name="articleName">article\'s name</string>
+    <string name="articlePrice">article\'s price</string>
+    <string name="addArticle">Add</string>
+    <string name="cashRegister">Cash Register</string>
+    <string name="cashRegisterAccess">Pass</string>
+    <string name="removeArticleButton">Remove</string>
+    <string name="registerTitle">Register Article</string>
+    <string name="articleNameLabel">Label</string>
+    <string name="articlePriceLabel">Price</string>
+    <string name="outOfConnection">Out of connection</string>
+    <string name="connectionStateLabel">Connection state</string>
+    <string name="totalPriceLabel">Total = </string>
+    <string name="totalPrice">0</string>
+    <string name="billTitle">Recap Bill</string>
 </resources>

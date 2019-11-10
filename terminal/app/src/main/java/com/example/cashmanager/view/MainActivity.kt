@@ -4,7 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ListView
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.cashmanager.R
@@ -13,20 +16,20 @@ import com.example.cashmanager.model.User
 import com.example.cashmanager.viewmodel.LoginViewModel
 
 class MainActivity : AppCompatActivity() {
-    //private lateinit var userAdapter: UserAdapter
     private lateinit var serverIdInput: EditText
     private lateinit var serverPasswordInput: EditText
-    private lateinit var connectedStatus: EditText
+    private lateinit var connectedStatus: TextView
     private var SERVER_ID: String = "id"
     private var SERVER_PASSWORD: String = "password"
     private var SERVER_STATUS: String = "status"
     private var SERVER_LAST_CONNECTION: String = "connection"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         serverIdInput = findViewById(R.id.EditTextServerId)
         serverPasswordInput = findViewById(R.id.EditTextServerPassword)
-        connectedStatus = findViewById(R.id.EditTextConnectedStatus)
+        connectedStatus = findViewById(R.id.ViewTextConnectedStatus)
         connectedStatus.setText(SERVER_STATUS)
 
         val model = ViewModelProviders.of(this).get(LoginViewModel::class.java)
@@ -74,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                     println(server.status)
                     println(server.last_connection)
 
-                    val intent = Intent(applicationContext, CashRegisterActivity::class.java)
+                    val intent = Intent(applicationContext, RegisterActivity::class.java)
                     intent.putExtra(SERVER_ID, server.id)
                     intent.putExtra(SERVER_PASSWORD, server.password)
                     intent.putExtra(SERVER_STATUS, "CONNECTED")
@@ -87,5 +90,14 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         )
+    }
+
+    fun accessSecondView(view: View) {
+        val intent = Intent(applicationContext, RegisterActivity::class.java)
+        intent.putExtra(SERVER_ID, "0")
+        intent.putExtra(SERVER_PASSWORD, "admin")
+        intent.putExtra(SERVER_STATUS, "CONNECTED")
+        intent.putExtra(SERVER_LAST_CONNECTION, "today")
+        startActivity(intent)
     }
 }
