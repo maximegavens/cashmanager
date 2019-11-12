@@ -100,4 +100,9 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(SERVER_LAST_CONNECTION, "today")
         startActivity(intent)
     }
+
+    fun accessNfc(view: View) {
+        val intent = Intent(applicationContext, ReceiverActivity::class.java)
+        startActivity(intent)
+    }
 }

@@ -25,4 +25,16 @@
     <string name="totalPriceLabel">Total = </string>
     <string name="totalPrice">0</string>
     <string name="billTitle">Recap Bill</string>
+    <string name="paymentReference">Payment Reference</string>
+    <string name="paymentStatus">Payment Status</string>
+    <string name="paymentTitle">Proceed to the payment</string>
+    <string name="paymentMode">Payment mode</string>
+    <string name="paymentProceed">next</string>
+
+    <string name="hint_your_message">my message</string>
+    <string name="label_your_message">my label message</string>
+    <string name="title_btn_set">My btn set</string>
+    <string name="messageReceive">message receive</string>
+    <string name="receiveTitle">NFC Reader</string>
+    <string name="nfc">nfc</string>
 </resources>

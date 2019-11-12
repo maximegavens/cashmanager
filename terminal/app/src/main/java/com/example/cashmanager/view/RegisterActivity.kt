@@ -9,6 +9,8 @@ import com.example.cashmanager.R
 import com.example.cashmanager.model.RegisterArticle
 import androidx.constraintlayout.widget.*
 import com.example.cashmanager.service.CartRegisterAdapter
+import java.util.*
+import kotlin.concurrent.schedule
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -44,6 +46,12 @@ class RegisterActivity : AppCompatActivity() {
 
         connectedStatus.text    = concatResult
         cartView.adapter        = adapter
+
+        // by pass this step
+        cart.add(RegisterArticle("apple", "4.2"))
+        cart.add(RegisterArticle("chocolate", "3.8"))
+        cart.add(RegisterArticle("whiskey", "23.5"))
+        total = 31.5
     }
 
     fun addArticle(view: View) {

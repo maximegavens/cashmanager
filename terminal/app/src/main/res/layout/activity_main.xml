@@ -50,6 +50,13 @@
                 android:onClick="accessSecondView"
                 android:layout_width="fill_parent">
             </Button>
+            <Button
+                android:id="@+id/nfcView"
+                android:layout_height="wrap_content"
+                android:text="@string/nfc"
+                android:onClick="accessNfc"
+                android:layout_width="fill_parent">
+            </Button>
         </LinearLayout>
 
     <TextView
