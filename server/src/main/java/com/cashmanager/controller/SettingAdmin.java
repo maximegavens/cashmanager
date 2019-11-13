@@ -30,7 +30,7 @@ public class SettingAdmin {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser( User us ) {
+    public ResponseEntity<User> createUser(@RequestBody User us ) {
         System.out.println(us.getEmail());
         System.out.println(us.getFull_name());
         System.out.println(us.getPassword());

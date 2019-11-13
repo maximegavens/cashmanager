@@ -14,7 +14,7 @@ public class AuthenticationService {
     public String SignUp(User us) {
         if (repository.existsUserByEmail(us.getEmail())) {
             User user = repository.findUserByEmail(us.getEmail());
-                if (user.getPassword() == us.getPassword())
+                if (user.getPassword().equals(us.getPassword()) == true)
                     return "Authentication Success";
         }
         return "Authentication Failed";

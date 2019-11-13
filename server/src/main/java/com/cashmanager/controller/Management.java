@@ -28,12 +28,12 @@ public class Management {
     }
 
     @PostMapping
-    public String createProduct(Product prod) {
+    public String createProduct(@RequestBody Product prod) {
         return service.createProduct(prod);
     }
 
     @PostMapping("/edit")
-    public boolean updateUser(Product prod) {
+    public boolean updateUser(@RequestBody Product prod) {
         return service.UpdateUser(prod);
     }
 
