@@ -1,7 +1,5 @@
 package com.cashmanager.model;
 
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -11,11 +9,11 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    //@Column(name = "id_product", nullable = false, updatable = false)
+    @Column(name = "id_product", nullable = false, updatable = false)
     private long id_product;
 
     @Column(name = "name")
-    //@NotBlank(message = "Name is mandatory")
+    @NotBlank(message = "Name is mandatory")
     private String name;
 
     @Column(name = "price")

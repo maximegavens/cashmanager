@@ -3,6 +3,7 @@ package com.cashmanager.model;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "userapp")
@@ -15,16 +16,17 @@ public class User {
     private long id_user;
 
     @Column(name = "full_name")
-    //@NotBlank(message = "Name is mandatory")
+    @NotBlank(message = "Name is mandatory")
     private String full_name;
 
     @Column(name = "email")
-    //@NotBlank(message = "Email is mandatory")
+    @NotBlank(message = "Email is mandatory")
     @Email
     private String email;
 
     @Column(name = "password")
-    //@NotBlank(message = "Password is mandatory")
+    @NotBlank(message = "Password is mandatory")
+    @Size(min = 5)
     private String password;
 
     public long getId_user() {

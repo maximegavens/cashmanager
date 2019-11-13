@@ -26,4 +26,32 @@ public class ProductService {
         Optional<Product> prod = repository.findById(id);
         return prod.get(); //please add exception
     }
+
+    public String createProduct(Product pr) {
+        if (!repository.existsProductByName(pr.getName())) {
+            Product prod = new Product();
+            prod.setName(pr.getName());
+            prod.setPrice(pr.getPrice());
+            repository.save(prod);
+            return "Success creating";
+        }
+        return "Error: This product already exists";
+    }
+
+    public Boolean UpdateProduct(long id, Product pr) {
+        if (repository.existsById(id)) {
+            Product prod = repository.getOne(id);
+            prod.setName(pr.getName());
+            prod.setPrice(pr.getPrice());
+            repository.save(prod);
+            return true;
+        }
+        return false;
+    }
+
+    public void deleteProduct(Long id) {
+        Optional<Product> prod = repository.findById(id);
+        if (prod.isPresent())
+            repository.deleteById(id);
+    }
 }
