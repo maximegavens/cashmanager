@@ -30,16 +30,18 @@ public class SettingAdmin {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser( User us ) {
+    public ResponseEntity<User> createUser(@RequestBody User us ) {
         System.out.println(us.getEmail());
         System.out.println(us.getFull_name());
         System.out.println(us.getPassword());
         User user = service.createUser(us);
         return new ResponseEntity<User>(user, new HttpHeaders(), HttpStatus.OK);
     }
-    /*public boolean updateUser(User us) {
-        return service.UpdateUser(us);
-    }*/
+
+    @PutMapping("/{id}")
+    public boolean updateUser(@PathVariable("id") long id, @RequestBody User us) {
+        return service.UpdateUser(id, us);
+    }
 
     @DeleteMapping("/{id}")
     public HttpStatus deleteUser(@PathVariable("id") long id) {

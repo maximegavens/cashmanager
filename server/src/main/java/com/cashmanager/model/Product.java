@@ -1,7 +1,5 @@
 package com.cashmanager.model;
 
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -19,14 +17,14 @@ public class Product {
     private String name;
 
     @Column(name = "price")
-    @NotBlank(message = "Price is mandatory")
+    //@NotBlank(message = "Price is mandatory")
     private double price;
 
-    public Long getId_product() {
+    public long getId_product() {
         return id_product;
     }
 
-    public void setId_product(Long id_product) { this.id_product = id_product; }
+    public void setId_product(long id_product) { this.id_product = id_product; }
 
     public String getName() {
         return name;

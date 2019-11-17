@@ -38,9 +38,9 @@ public class SettingAdminService {
         return null;
     }
 
-    public Boolean UpdateUser(User us) {
-        if (repository.existsById(us.getId_user())) {
-            User user = repository.getOne(us.getId_user());
+    public Boolean UpdateUser(long id, User us) {
+        if (repository.existsById(id)) {
+            User user = repository.getOne(id);
             user.setFull_name(us.getFull_name());
             user.setEmail(us.getEmail());
             user.setPassword(us.getPassword());

@@ -1,4 +1,4 @@
-## cashmanager
+## Cashmanager
 
 To compile the server:
 	-	cd server/

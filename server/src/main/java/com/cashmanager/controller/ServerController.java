@@ -30,19 +30,19 @@ public class ServerController {
     }
 
     @PostMapping("/sign_in")
-    public ResponseEntity<Server> signInServer( Server s ) {
+    public ResponseEntity<Server> signInServer(@RequestBody Server s ) {
         Server server = service.checkAuth(s);
         return new ResponseEntity<Server>(server, new HttpHeaders(), HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Server> createServer( Server s ) {
+    public ResponseEntity<Server> createServer(@RequestBody Server s ) {
         Server server = service.createServer(s);
         return new ResponseEntity<Server>(server, new HttpHeaders(), HttpStatus.OK);
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Server> updateServer( Server s ) {
+    public ResponseEntity<Server> updateServer(@RequestBody Server s ) {
         Server server = service.UpdateServer(s);
         return new ResponseEntity<Server>(server, new HttpHeaders(), HttpStatus.OK);
     }

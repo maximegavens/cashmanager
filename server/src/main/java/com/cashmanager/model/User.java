@@ -3,6 +3,7 @@ package com.cashmanager.model;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "userapp")
@@ -25,10 +26,15 @@ public class User {
 
     @Column(name = "password")
     @NotBlank(message = "Password is mandatory")
+    @Size(min = 5)
     private String password;
 
     public long getId_user() {
         return id_user;
+    }
+
+    public void setId_user(long id_user) {
+        this.id_user = id_user;
     }
 
     public String getFull_name() {

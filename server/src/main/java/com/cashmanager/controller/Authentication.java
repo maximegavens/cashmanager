@@ -4,6 +4,7 @@ import com.cashmanager.model.User;
 import com.cashmanager.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,15 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class Authentication {
 
     @Autowired
-    AuthenticationService service;
+    private AuthenticationService service;
 
     @PostMapping("/signup")
-    public String SignUpForm(User user) {
+    public String SignUpForm(@RequestBody User user) {
         return service.SignUp(user);
     }
 
     @PostMapping("/register")
-    public String createUser(User us) {
+    public String createUser(@RequestBody User us) {
         return service.createUser(us);
     }
 }
