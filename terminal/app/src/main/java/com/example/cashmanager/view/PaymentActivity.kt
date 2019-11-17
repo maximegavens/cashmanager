@@ -1,21 +1,36 @@
 package com.example.cashmanager.view
 
+import android.app.PendingIntent
+import android.content.Intent
+import android.nfc.NfcAdapter
 import android.os.Bundle
-import android.widget.ListView
-import android.widget.TextView
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cashmanager.R
 import com.example.cashmanager.model.RegisterArticle
 import com.example.cashmanager.service.CartBillAdapter
+import com.example.cashmanager.service.NfcManager
+import com.google.zxing.integration.android.IntentIntegrator
 
 class PaymentActivity : AppCompatActivity() {
 
     private lateinit var connectedStatus:   TextView
     private lateinit var totalView:         TextView
     private lateinit var paymentStatusView: TextView
-    private lateinit var paymentView:       TextView
+    private lateinit var paymentModeView:   TextView
+    private lateinit var imageNfc:          ImageView
+    private lateinit var imageSuccess:      ImageView
+    private lateinit var imageFailed:       ImageView
 
-    private lateinit var total:             String
+    // NFC Reader
+    private var incomingMessage: TextView? = null
+    private var nfcAdapter: NfcAdapter? = null
+    private var pendingIntent: PendingIntent? = null
+
+    // QR code
+    private var btnScan: Button? = null
+    private var scanTextView: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,14 +42,101 @@ class PaymentActivity : AppCompatActivity() {
         val lastConnection      = intent.getStringExtra("last connection") ?: "None"
         val concatResult        = id.plus(" ").plus(" ").plus(status).plus(" ").plus(lastConnection)
 
-        total   = intent.getStringExtra("total") ?: "None"
-
         connectedStatus     = findViewById(R.id.connectionState)
         totalView           = findViewById(R.id.billTotal)
         paymentStatusView   = findViewById(R.id.paymentStatus)
-        paymentView         = findViewById(R.id.payment)
+        paymentModeView     = findViewById(R.id.paymentMode)
+        imageSuccess        = findViewById(R.id.imageSuccess)
+        imageFailed         = findViewById(R.id.imageFailed)
+        // NFC Reader
+        incomingMessage     = findViewById(R.id.tv_in_message)
+        imageNfc            = findViewById(R.id.imageNfc)
+        //QR code
+        btnScan             = findViewById(R.id.cameraButton)
+        scanTextView        = findViewById(R.id.cameraPreview)
 
         connectedStatus.text    = concatResult
-        totalView.text = total
+        totalView.text          = intent.getStringExtra("total") ?: "None"
+        paymentModeView.text    = intent.getStringExtra("mode") ?: "None"
+
+        imageSuccess!!.visibility   = View.INVISIBLE
+        imageFailed!!.visibility    = View.INVISIBLE
+
+        if (paymentModeView.text == "nfc") {
+            nfcAdapter = NfcAdapter.getDefaultAdapter(this)
+            pendingIntent = PendingIntent.getActivity(
+                this, 0, Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0
+            )
+            if(nfcAdapter != null && nfcAdapter!!.isEnabled) {
+                Toast.makeText(this, "Nfc Reader is enable", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Nfc Reader is disable", Toast.LENGTH_SHORT).show()
+            }
+            btnScan!!.visibility = View.INVISIBLE
+            scanTextView!!.visibility = View.INVISIBLE
+        } else if (paymentModeView.text == "QR code") {
+            incomingMessage!!.visibility = View.INVISIBLE
+            imageNfc!!.visibility = View.INVISIBLE
+            initfunction()
+        } else {
+            btnScan!!.visibility = View.INVISIBLE
+            scanTextView!!.visibility = View.INVISIBLE
+            incomingMessage!!.visibility = View.INVISIBLE
+            imageNfc!!.visibility = View.INVISIBLE
+        }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+
+        if (incomingMessage != null) {
+            setIntent(intent)
+            incomingMessage!!.text = NfcManager.resolveIntentAndGetTagView(intent)
+            imageSuccess.visibility = View.VISIBLE
+            imageNfc.visibility = View.INVISIBLE
+        }
+    }
+
+    override fun onResume() {
+        if (nfcAdapter != null) {
+            nfcAdapter!!.enableForegroundDispatch(this, pendingIntent, null, null)
+        }
+
+        super.onResume()
+    }
+
+    override fun onPause() {
+        if (nfcAdapter != null) {
+            nfcAdapter!!.disableForegroundDispatch(this)
+        }
+
+        super.onPause()
+    }
+
+    private fun initfunction() {
+        if (btnScan != null) {
+            btnScan!!.setOnClickListener {
+                initScan()
+            }
+        }
+    }
+
+    private fun initScan() {
+        IntentIntegrator(this).initiateScan()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+
+        if (result != null && scanTextView != null) {
+            if (result.contents == null) {
+                Toast.makeText(this, "result content is empty", Toast.LENGTH_SHORT).show()
+            } else {
+                scanTextView!!.setText(result.contents.toString())
+                imageSuccess.visibility = View.VISIBLE
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 }

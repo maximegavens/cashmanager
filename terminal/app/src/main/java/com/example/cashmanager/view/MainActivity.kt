@@ -4,9 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.ListView
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -103,6 +101,11 @@ class MainActivity : AppCompatActivity() {
 
     fun accessNfc(view: View) {
         val intent = Intent(applicationContext, ReceiverActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun accessGenerator(view: View) {
+        val intent = Intent(applicationContext, GenerateActivity::class.java)
         startActivity(intent)
     }
 }

@@ -21,6 +21,7 @@ class BillActivity : AppCompatActivity() {
 
     private lateinit var cart:              Array<RegisterArticle>
     private lateinit var total:             String
+    private lateinit var mode:             String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,12 +35,13 @@ class BillActivity : AppCompatActivity() {
 
         total   = intent.getStringExtra("total") ?: "None"
         cart    = intent.getSerializableExtra("cart") as Array<RegisterArticle>
-        adapter = CartBillAdapter(this, cart.toList())
+        mode    = intent.getStringExtra("mode") ?: "None"
 
         connectedStatus     = findViewById(R.id.connectionState)
         cartView            = findViewById(R.id.billList)
         totalView           = findViewById(R.id.billTotal)
 
+        adapter = CartBillAdapter(this, cart.toList())
         connectedStatus.text    = concatResult
         cartView.adapter = adapter
         totalView.text = total
@@ -47,17 +49,18 @@ class BillActivity : AppCompatActivity() {
         // wait
         Timer("bill charge", false).schedule(1500) {
             println("timer success")
-            paymentProceed(View(null))
+            paymentProceed()
         }
     }
 
-    fun paymentProceed(view: View) {
+    private fun paymentProceed() {
         val intent = Intent(applicationContext, PaymentActivity::class.java)
         intent.putExtra("id", "0")
         intent.putExtra("status", "CONNECTED")
         intent.putExtra("last_connection", "today")
 
         intent.putExtra("total", total.toString())
+        intent.putExtra("mode", mode)
         startActivity(intent)
     }
 }

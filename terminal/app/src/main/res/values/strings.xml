@@ -29,12 +29,19 @@
     <string name="paymentStatus">Payment Status</string>
     <string name="paymentTitle">Proceed to the payment</string>
     <string name="paymentMode">Payment mode</string>
-    <string name="paymentProceed">next</string>
+    <string name="paymentProceed">pay now</string>
 
     <string name="hint_your_message">my message</string>
     <string name="label_your_message">my label message</string>
     <string name="title_btn_set">My btn set</string>
-    <string name="messageReceive">message receive</string>
+    <string name="messageReceive"> </string>
     <string name="receiveTitle">NFC Reader</string>
-    <string name="nfc">nfc</string>
+    <string name="nfc">NFC</string>
+    <string name="cameraPreviewLabel">Please focus on QR code</string>
+    <string name="scanQR">Scan QR</string>
+    <string name="generator">generator</string>
+    <string name="paymentModeLabel">Payment mode :</string>
+    <string name="qrcode">QR code</string>
+    <string name="paymentStatusLabel">Payment status :</string>
+    <string name="paymentRest">Left to pay :</string>
 </resources>

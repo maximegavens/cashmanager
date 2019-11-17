@@ -16,6 +16,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private var             cart:           MutableList<RegisterArticle> = mutableListOf<RegisterArticle>()
     private var             total:          Double = 0.0
+    private var             radioState:     String = "nfc"
 
     private lateinit var articleNameInput:  EditText
     private lateinit var articlePriceInput: EditText
@@ -23,7 +24,8 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var cartView:          ListView
     private lateinit var adapter:           CartRegisterAdapter
     private lateinit var totalView:         TextView
-    private lateinit var totalAndPayLayout: LinearLayout
+    private lateinit var totalAndPayLayout: ConstraintLayout
+    private lateinit var paymentMode:       RadioGroup
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,9 +45,17 @@ class RegisterActivity : AppCompatActivity() {
         cartView            = findViewById(R.id.ArticleListView)
         totalView           = findViewById(R.id.TotalPrice)
         totalAndPayLayout   = findViewById(R.id.totalAndPay)
+        paymentMode         = findViewById(R.id.radioPayment)
 
         connectedStatus.text    = concatResult
         cartView.adapter        = adapter
+
+        paymentMode.setOnCheckedChangeListener { group, checkedId ->
+            val radio: RadioButton = findViewById(checkedId)
+            Toast.makeText(applicationContext," On checked change : ${radio.text}",
+                Toast.LENGTH_SHORT).show()
+            radioState = radio.text.toString()
+        }
 
         // by pass this step
         cart.add(RegisterArticle("apple", "4.2"))
@@ -92,6 +102,7 @@ class RegisterActivity : AppCompatActivity() {
 
         intent.putExtra("total", total.toString())
         intent.putExtra("cart", cart.toTypedArray())
+        intent.putExtra("mode", radioState)
         startActivity(intent)
     }
 
