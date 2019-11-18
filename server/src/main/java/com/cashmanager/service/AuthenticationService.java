@@ -11,24 +11,24 @@ public class AuthenticationService {
     @Autowired
     AuthenticationRepository repository;
 
-    public String SignUp(User us) {
-        if (repository.existsUserByEmail(us.getEmail())) {
-            User user = repository.findUserByEmail(us.getEmail());
-                if (user.getPassword().equals(us.getPassword()) == true)
-                    return "Authentication Success";
+    public User checkAuth(String email, String password) {
+        if (repository.existsUserByEmail(email)) {
+            User user = repository.findUserByEmail(email);
+            if (user.getPassword().equals(password)) {
+                return user;
+            }
         }
-        return "Authentication Failed";
+        return null;
     }
 
-    public String createUser(User us) {
+    public User createUser(User us) {
         if (!repository.existsUserByEmail(us.getEmail())) {
             User user = new User();
             user.setFull_name(us.getFull_name());
             user.setEmail(us.getEmail());
             user.setPassword(us.getPassword());
-            repository.save(user);
-            return "Success creating";
+            return repository.save(user);
         }
-        return "Error: This user already exists";
+        return null;
     }
 }
