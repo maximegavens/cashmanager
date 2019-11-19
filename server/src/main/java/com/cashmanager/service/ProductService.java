@@ -2,6 +2,7 @@ package com.cashmanager.service;
 
 import com.cashmanager.model.Product;
 import com.cashmanager.repository.ProductRepository;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -22,9 +23,9 @@ public class ProductService {
             return new ArrayList<Product>();
     }
 
-    public Product getProductById(long id) {
+    public Product getProductById(long id) throws NoSuchBeanDefinitionException {
         Optional<Product> prod = repository.findById(id);
-        return prod.get(); //please add exception
+        return prod.get();
     }
 
     public String createProduct(Product pr) {
