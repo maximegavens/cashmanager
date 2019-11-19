@@ -33,15 +33,15 @@ public class AuthenticationServiceTest {
                 .build();
     }
 
-    @Test
-    public void signUpTest() throws Exception {
+    /*@Test
+    public void signInTest() throws Exception {
         User us = new User();
         us.setId_user(4);
         us.setFull_name("JUnit");
         us.setEmail("junit@test.fr");
         us.setPassword("JUnit");
-        Mockito.when(service.SignUp(us)).thenReturn(true);
-    }
+        Mockito.when(service.SignIn(us)).thenReturn(us);
+    }*/
 
     @Test
     public void createUserTest() throws Exception {
@@ -50,6 +50,6 @@ public class AuthenticationServiceTest {
         us.setFull_name("JUnit");
         us.setEmail("junffffit@test.fr");
         us.setPassword("JUnit");
-        Mockito.when(service.createUser(us)).thenReturn("Success creating");
+        Mockito.when(service.createUser(us)).thenReturn(us);
     }
 }
