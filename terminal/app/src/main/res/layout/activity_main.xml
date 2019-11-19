@@ -6,63 +6,85 @@
     android:layout_height="match_parent"
     android:padding="8dp"
     tools:context=".view.MainActivity">
-    <TextView
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/linearLayout"
-        android:layout_centerHorizontal="true"
-        android:text="@string/authTitle"
-        android:textSize="10pt">
-    </TextView>
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/MyTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:orientation="vertical">
-            <EditText
+            android:layout_marginBottom="40dp"
+            android:text="@string/authTitle"
+            ></TextView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/MyTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp">
+
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/EditTextServerId"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/authServerId"
-                android:inputType="number"
-                android:layout_width="fill_parent">
-            </EditText>
-            <EditText
+                android:hint="Server ID"
+                android:inputType="number"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/MyTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="15dp">
+
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/EditTextServerPassword"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/authServerPassword"
-                android:inputType="textPassword"
-                android:layout_width="fill_parent">
-            </EditText>
-            <Button
-                android:id="@+id/ButtonSubmitLogin"
-                android:layout_height="wrap_content"
-                android:text="@string/authSubmit"
-                android:onClick="login"
-                android:layout_width="fill_parent">
-            </Button>
-            <Button
-                android:id="@+id/secondView"
-                android:layout_height="wrap_content"
-                android:text="@string/cashRegisterAccess"
-                android:onClick="accessSecondView"
-                android:layout_width="fill_parent">
-            </Button>
-            <Button
-                android:id="@+id/nfcView"
-                android:layout_height="wrap_content"
-                android:text="@string/nfc"
-                android:onClick="accessNfc"
-                android:layout_width="fill_parent">
-            </Button>
-            <Button
-                android:id="@+id/generatorView"
-                android:layout_height="wrap_content"
-                android:text="@string/generator"
-                android:onClick="accessGenerator"
-                android:layout_width="fill_parent">
-            </Button>
-        </LinearLayout>
+                android:hint="Server password"
+                android:inputType="textPassword"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/ButtonSubmitLogin"
+            style="@style/MyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="login"
+            android:text="@string/authSubmit"></Button>
+
+        <Button
+            android:id="@+id/secondView"
+            style="@style/MyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="accessSecondView"
+            android:text="@string/cashRegisterAccess"></Button>
+
+        <Button
+            android:id="@+id/nfcView"
+            style="@style/MyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="accessNfc"
+            android:text="@string/nfc"></Button>
+
+        <Button
+            android:id="@+id/generatorView"
+            style="@style/MyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="accessGenerator"
+            android:text="@string/generator"></Button>
+    </LinearLayout>
     <TextView
         android:id="@+id/ViewTextConnectedStatus"
         android:layout_width="fill_parent"
