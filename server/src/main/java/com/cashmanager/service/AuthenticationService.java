@@ -11,13 +11,13 @@ public class AuthenticationService {
     @Autowired
     AuthenticationRepository repository;
 
-    public String SignUp(User us) {
+    public Boolean SignUp(User us) {
         if (repository.existsUserByEmail(us.getEmail())) {
             User user = repository.findUserByEmail(us.getEmail());
                 if (user.getPassword().equals(us.getPassword()) == true)
-                    return "Authentication Success";
+                    return true;
         }
-        return "Authentication Failed";
+        return false;
     }
 
     public String createUser(User us) {

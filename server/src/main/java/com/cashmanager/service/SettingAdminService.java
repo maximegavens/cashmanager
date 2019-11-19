@@ -24,7 +24,7 @@ public class SettingAdminService {
 
     public User getUserById(long id) {
         Optional<User> user = repository.findById(id);
-        return user.get(); //please add exception
+        return user.get();
     }
 
     public User createUser(User us) {

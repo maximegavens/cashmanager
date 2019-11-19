@@ -16,7 +16,7 @@ public class Authentication {
     private AuthenticationService service;
 
     @PostMapping("/signup")
-    public String SignUpForm(@RequestBody User user) {
+    public boolean SignUpForm(@RequestBody User user) {
         return service.SignUp(user);
     }
 
