@@ -11,12 +11,11 @@ public class AuthenticationService {
     @Autowired
     AuthenticationRepository repository;
 
-    public User checkAuth(String email, String password) {
-        if (repository.existsUserByEmail(email)) {
-            User user = repository.findUserByEmail(email);
-            if (user.getPassword().equals(password)) {
+    public User SignIn(User us) {
+        if (repository.existsUserByEmail(us.getEmail())) {
+            User user = repository.findUserByEmail(us.getEmail());
+            if (user.getPassword().equals(us.getPassword()))
                 return user;
-            }
         }
         return null;
     }

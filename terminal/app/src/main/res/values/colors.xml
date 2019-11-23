@@ -6,4 +6,9 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="red">#FF0000</color>
+
+    <!-- Violet colors -->
+    <color name="primaryColor">#436d53</color>
+    <color name="primaryLightColor">#709b7f</color>
+    <color name="primaryDarkColor">#18422a</color>
 </resources>
