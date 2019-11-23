@@ -1,4 +1,4 @@
-package com.example.cashmanager.view
+package com.example.cashmanager.tool
 
 import android.graphics.Bitmap
 import android.media.MediaScannerConnection
@@ -56,7 +56,8 @@ class GenerateActivity : AppCompatActivity() {
         val bytes = ByteArrayOutputStream()
         myBitmap!!.compress(Bitmap.CompressFormat.JPEG, 90, bytes)
         val wallpaperDirectory = File(
-            Environment.getExternalStorageDirectory().toString() + IMAGE_DIRECTORY)
+            Environment.getExternalStorageDirectory().toString() + IMAGE_DIRECTORY
+        )
         // have the object build the directory structure, if needed.
 
         if (!wallpaperDirectory.exists()) {
@@ -92,7 +93,8 @@ class GenerateActivity : AppCompatActivity() {
             bitMatrix = MultiFormatWriter().encode(
                 Value,
                 BarcodeFormat.QR_CODE,
-                QRcodeWidth, QRcodeWidth, null
+                QRcodeWidth,
+                QRcodeWidth, null
             )
 
         } catch (Illegalargumentexception: IllegalArgumentException) {

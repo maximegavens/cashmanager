@@ -1,4 +1,4 @@
-package com.example.cashmanager.service
+package com.example.cashmanager.`object`
 
 import android.content.Intent
 import android.nfc.NdefMessage

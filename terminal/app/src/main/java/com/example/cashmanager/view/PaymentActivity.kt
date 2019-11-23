@@ -7,10 +7,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import com.example.cashmanager.R
-import com.example.cashmanager.model.RegisterArticle
-import com.example.cashmanager.service.CartBillAdapter
-import com.example.cashmanager.service.NfcManager
+import com.example.cashmanager.`object`.NfcManager
+import com.example.cashmanager.viewmodel.PaymentViewModel
+import com.example.cashmanager.viewmodel.RegisterViewModel
 import com.google.zxing.integration.android.IntentIntegrator
 
 class PaymentActivity : AppCompatActivity() {
@@ -19,9 +20,16 @@ class PaymentActivity : AppCompatActivity() {
     private lateinit var totalView:         TextView
     private lateinit var paymentStatusView: TextView
     private lateinit var paymentModeView:   TextView
+    private lateinit var paymentStatus:     TextView
     private lateinit var imageNfc:          ImageView
     private lateinit var imageSuccess:      ImageView
     private lateinit var imageFailed:       ImageView
+
+    private lateinit var model:             PaymentViewModel
+
+    private lateinit var server:            String
+
+    //TODO split in two activity, one with qr other with scan
 
     // NFC Reader
     private var incomingMessage: TextView? = null
@@ -42,12 +50,15 @@ class PaymentActivity : AppCompatActivity() {
         val lastConnection      = intent.getStringExtra("last connection") ?: "None"
         val concatResult        = id.plus(" ").plus(" ").plus(status).plus(" ").plus(lastConnection)
 
+        server = intent.getStringExtra("server") ?: "localhost"
+
         connectedStatus     = findViewById(R.id.connectionState)
         totalView           = findViewById(R.id.billTotal)
         paymentStatusView   = findViewById(R.id.paymentStatus)
         paymentModeView     = findViewById(R.id.paymentMode)
         imageSuccess        = findViewById(R.id.imageSuccess)
         imageFailed         = findViewById(R.id.imageFailed)
+        paymentStatus       = findViewById(R.id.paymentStatus)
         // NFC Reader
         incomingMessage     = findViewById(R.id.tv_in_message)
         imageNfc            = findViewById(R.id.imageNfc)
@@ -58,6 +69,7 @@ class PaymentActivity : AppCompatActivity() {
         connectedStatus.text    = concatResult
         totalView.text          = intent.getStringExtra("total") ?: "None"
         paymentModeView.text    = intent.getStringExtra("mode") ?: "None"
+        paymentStatus.text      = "Waiting for payment..."
 
         imageSuccess!!.visibility   = View.INVISIBLE
         imageFailed!!.visibility    = View.INVISIBLE
@@ -84,6 +96,8 @@ class PaymentActivity : AppCompatActivity() {
             incomingMessage!!.visibility = View.INVISIBLE
             imageNfc!!.visibility = View.INVISIBLE
         }
+
+        model = ViewModelProviders.of(this).get(PaymentViewModel::class.java)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -134,6 +148,8 @@ class PaymentActivity : AppCompatActivity() {
             } else {
                 scanTextView!!.setText(result.contents.toString())
                 imageSuccess.visibility = View.VISIBLE
+                model.sendPayment() //TODO extract account code and amount of bill, make a various display in function of server result
+
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)

@@ -4,87 +4,95 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.cashmanager.R
-import com.example.cashmanager.model.Server
 import com.example.cashmanager.model.User
+import com.example.cashmanager.tool.GenerateActivity
 import com.example.cashmanager.viewmodel.LoginViewModel
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var serverIdInput: EditText
-    private lateinit var serverPasswordInput: EditText
-    private lateinit var connectedStatus: TextView
-    private var SERVER_ID: String = "id"
-    private var SERVER_PASSWORD: String = "password"
-    private var SERVER_STATUS: String = "status"
-    private var SERVER_LAST_CONNECTION: String = "connection"
+class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+
+    private lateinit var userLoginInput:        EditText
+    private lateinit var userPasswordInput:     EditText
+    private lateinit var connectedStatus:       TextView
+    private lateinit var spinner:               Spinner
+
+    var ipServerSelected:                       String = "192.168.1.15"
+    var ipServer =                              arrayOf("192.168.1.15", "192.168.43.209")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        serverIdInput = findViewById(R.id.EditTextServerId)
-        serverPasswordInput = findViewById(R.id.EditTextServerPassword)
-        connectedStatus = findViewById(R.id.ViewTextConnectedStatus)
-        connectedStatus.setText(SERVER_STATUS)
 
-        val model = ViewModelProviders.of(this).get(LoginViewModel::class.java)
-        observeViewModel(model)
+        userLoginInput          = findViewById(R.id.EditTextUserLogin)
+        userPasswordInput       = findViewById(R.id.EditTextUserPassword)
+        connectedStatus         = findViewById(R.id.connectionState)
+        spinner                 = findViewById(R.id.ips_spinner)
+
+        val concatResult        = "None Refused None"
+        connectedStatus.text    = concatResult
+
+        val log = "bufalo@fire.com"
+        val pass = "admin"
+        userLoginInput.setText(log)
+        userPasswordInput.setText(pass)
+
+        //Spinner test
+        spinner!!.onItemSelectedListener = this
+
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.ips_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            spinner.adapter = adapter
+        }
     }
 
-    private fun observeViewModel(viewModel: LoginViewModel) {
-        // Update the list when the data changes
-        viewModel.getUsers().observe(this,
-            Observer<List<User>> { users ->
-                if (users != null) {
-                    for (user in users) {
-                        println(user.login)
-                        println(user.password)
-                        println(user.username)
-                    }
-                    // userAdapter.setProjectList(users)
-                } else {
-                    println("nothing")
-                }
-            })
+    override fun onItemSelected(arg0: AdapterView<*>, arg1: View, position: Int, id: Long) {
+        ipServerSelected = ipServer[position]
+    }
+
+    override fun onNothingSelected(arg0: AdapterView<*>) {
     }
 
     fun login(view: View) {
-        val id = serverIdInput.text.toString()
-        val password = serverPasswordInput.text.toString()
+        val login = userLoginInput.text.toString()
+        val password = userPasswordInput.text.toString()
 
-        if(id.isEmpty()) {
-            serverIdInput.error = "Server ID required"
-            serverIdInput.requestFocus()
+        if(login.isEmpty()) {
+            userLoginInput.error = "user ID required"
+            userLoginInput.requestFocus()
             return
         }
         if(password.isEmpty()) {
-            serverPasswordInput.error = "Server password required"
-            serverPasswordInput.requestFocus()
+            userPasswordInput.error = "user password required"
+            userPasswordInput.requestFocus()
             return
         }
 
         val model = ViewModelProviders.of(this).get(LoginViewModel::class.java)
-        model.getServer(id, password).observe(this,
-            Observer<Server> { server ->
-                if (server != null) {
-                    println(server.id)
-                    println(server.password)
-                    println(server.status)
-                    println(server.last_connection)
+        model.getUser(login, password, ipServerSelected).observe(this,
+            Observer<User> { user ->
+                if (user != null) {
+                    println(user.id)
 
                     val intent = Intent(applicationContext, RegisterActivity::class.java)
-                    intent.putExtra(SERVER_ID, server.id)
-                    intent.putExtra(SERVER_PASSWORD, server.password)
-                    intent.putExtra(SERVER_STATUS, "CONNECTED")
-                    intent.putExtra(SERVER_LAST_CONNECTION, server.last_connection)
+                    intent.putExtra("id", user.id)
+                    intent.putExtra("login", user.login)
+                    intent.putExtra("password", user.password)
+                    intent.putExtra("connection", user.username)
+
+                    intent.putExtra("server", ipServerSelected)
                     startActivity(intent)
                 } else {
                     println("something wrong")
-                    val connection = "CONNECTION FAILED"
-                    connectedStatus.setText(connection)
+                    Toast.makeText(this, "Wrong login or password", Toast.LENGTH_LONG).show()
                 }
             }
         )
@@ -92,15 +100,12 @@ class MainActivity : AppCompatActivity() {
 
     fun accessSecondView(view: View) {
         val intent = Intent(applicationContext, RegisterActivity::class.java)
-        intent.putExtra(SERVER_ID, "0")
-        intent.putExtra(SERVER_PASSWORD, "admin")
-        intent.putExtra(SERVER_STATUS, "CONNECTED")
-        intent.putExtra(SERVER_LAST_CONNECTION, "today")
-        startActivity(intent)
-    }
+        intent.putExtra("id", "0")
+        intent.putExtra("password", "admin")
+        intent.putExtra("status", "CONNECTED")
+        intent.putExtra("connection", "today")
 
-    fun accessNfc(view: View) {
-        val intent = Intent(applicationContext, ReceiverActivity::class.java)
+        intent.putExtra("server", ipServerSelected)
         startActivity(intent)
     }
 

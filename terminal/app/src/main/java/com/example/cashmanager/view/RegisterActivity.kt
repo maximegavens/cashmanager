@@ -6,26 +6,31 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import com.example.cashmanager.R
-import com.example.cashmanager.model.RegisterArticle
 import androidx.constraintlayout.widget.*
-import com.example.cashmanager.service.CartRegisterAdapter
-import java.util.*
-import kotlin.concurrent.schedule
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.example.cashmanager.model.Product
+import com.example.cashmanager.adapter.CartRegisterAdapter
+import com.example.cashmanager.viewmodel.RegisterViewModel
 
 class RegisterActivity : AppCompatActivity() {
 
-    private var             cart:           MutableList<RegisterArticle> = mutableListOf<RegisterArticle>()
+    private var             cart:           MutableList<Product?> = mutableListOf<Product?>()
     private var             total:          Double = 0.0
     private var             radioState:     String = "nfc"
+    private var             ipServer:       String = "localhost"
 
     private lateinit var articleNameInput:  EditText
     private lateinit var articlePriceInput: EditText
     private lateinit var connectedStatus:   TextView
     private lateinit var cartView:          ListView
-    private lateinit var adapter:           CartRegisterAdapter
+    private lateinit var adapter: CartRegisterAdapter
     private lateinit var totalView:         TextView
     private lateinit var totalAndPayLayout: ConstraintLayout
     private lateinit var paymentMode:       RadioGroup
+
+    private lateinit var model:             RegisterViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,11 +43,13 @@ class RegisterActivity : AppCompatActivity() {
         val lastConnection      = intent.getStringExtra("last connection") ?: "None"
         val concatResult        = id.plus(" ").plus(" ").plus(status).plus(" ").plus(lastConnection)
 
+        ipServer                = intent.getStringExtra("server") ?: "localhost"
+
         connectedStatus     = findViewById(R.id.connectionState)
         articleNameInput    = findViewById(R.id.EditTextArticleName)
         articlePriceInput   = findViewById(R.id.EditNumberArticlePrice)
         adapter             = CartRegisterAdapter(this, cart)
-        cartView            = findViewById(R.id.ArticleListView)
+        cartView            = findViewById(R.id.productListView)
         totalView           = findViewById(R.id.TotalPrice)
         totalAndPayLayout   = findViewById(R.id.totalAndPay)
         paymentMode         = findViewById(R.id.radioPayment)
@@ -57,38 +64,25 @@ class RegisterActivity : AppCompatActivity() {
             radioState = radio.text.toString()
         }
 
-        // by pass this step
-        cart.add(RegisterArticle("apple", "4.2"))
-        cart.add(RegisterArticle("chocolate", "3.8"))
-        cart.add(RegisterArticle("whiskey", "23.5"))
-        total = 31.5
+        model = ViewModelProviders.of(this).get(RegisterViewModel::class.java)
+        updateCart(model.getAllProduct(ipServer))
     }
 
-    fun addArticle(view: View) {
+    fun addProduct(view: View) {
         val name        = articleNameInput.text.toString()
         val price       = articlePriceInput.text.toString()
-        val newArticle  = RegisterArticle(name, price)
-        val priceNumber = price.toDoubleOrNull() ?: return
+        val newProduct  = Product(-1, name, price)
 
-        total = total.plus(priceNumber)
-        totalView.text = total.toString()
-        cart.add(newArticle)
-        adapter.notifyDataSetChanged()
-
-        totalAndPayLayout.visibility = View.VISIBLE
+        updateCart(model.createProduct(newProduct, ipServer))
     }
 
-    fun removeArticle(view: View) {
+    fun removeProduct(view: View) {
         val np = getNameAndPriceFromArticleView(view) ?: return
-        val copyArticle = cart.toList()
+        val copyProducts = cart.toList()
 
-        for (art in copyArticle) {
-            if (art.name == np.first && art.price == np.second) {
-                total = total.minus(art.price.toDouble())
-                totalView.text = total.toString()
-                cart.remove(art)
-                adapter.notifyDataSetChanged()
-                if (cart.isEmpty()) totalAndPayLayout.visibility = View.INVISIBLE
+        for (product in copyProducts) {
+            if (product!!.name == np.first && product.price == np.second) {
+                updateCart(model.deleteProduct(product.id_product, ipServer))
                 break
             }
         }
@@ -103,6 +97,8 @@ class RegisterActivity : AppCompatActivity() {
         intent.putExtra("total", total.toString())
         intent.putExtra("cart", cart.toTypedArray())
         intent.putExtra("mode", radioState)
+
+        intent.putExtra("server", ipServer)
         startActivity(intent)
     }
 
@@ -122,5 +118,29 @@ class RegisterActivity : AppCompatActivity() {
             return Pair(name, price)
         }
         return null
+    }
+
+    private fun updateCart(newList: LiveData<MutableList<Product?>>) {
+        newList.observe(this,
+            Observer<MutableList<Product?>> { products ->
+                var total = 0.0
+                if (products != null) {
+                    cart.clear()
+                    for (product in products) {
+                        println(product?.name)
+                        cart.add(product)
+                        total = total.plus(product!!.price.toDouble())
+                    }
+                    totalView.text = total.toString()
+                    adapter.notifyDataSetChanged()
+                    if (cart.isEmpty()) {
+                        totalAndPayLayout.visibility = View.INVISIBLE
+                    } else {
+                        totalAndPayLayout.visibility = View.VISIBLE
+                    }
+                } else {
+                    Toast.makeText(this, "Products is null", Toast.LENGTH_SHORT).show()
+                }
+            })
     }
 }

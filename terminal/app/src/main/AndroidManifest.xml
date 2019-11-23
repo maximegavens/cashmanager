@@ -27,7 +27,7 @@
                 <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.GenerateActivity">
+        <activity android:name=".tool.GenerateActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />

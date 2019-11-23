@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CashManager</string>
     <string name="hello_world">HelloWorld</string>
-    <string name="authTitle">Connect to server</string>
+    <string name="authTitle">Authentication</string>
     <string name="authServerId">Server ID</string>
     <string name="authServerPassword">Server Password</string>
     <string name="authSubmit">Submit</string>
@@ -44,4 +44,9 @@
     <string name="qrcode">QR code</string>
     <string name="paymentStatusLabel">Payment status :</string>
     <string name="paymentRest">Left to pay :</string>
+
+    <string name="authUserLogin">Login</string>
+    <string name="authUserPassword">Password</string>
+    <string name="paymentWaiting">Waiting for payment #8230</string>
+    <string name="ipserver">IP server</string>
 </resources>

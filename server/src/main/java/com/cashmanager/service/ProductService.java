@@ -27,15 +27,16 @@ public class ProductService {
         return prod.get(); //please add exception
     }
 
-    public String createProduct(Product pr) {
+    public Product createProduct(Product pr) {
+        System.out.println(pr.getName());
+        System.out.println(pr.getPrice());
         if (!repository.existsProductByName(pr.getName())) {
             Product prod = new Product();
             prod.setName(pr.getName());
             prod.setPrice(pr.getPrice());
-            repository.save(prod);
-            return "Success creating";
+            return repository.save(prod);
         }
-        return "Error: This product already exists";
+        return null;
     }
 
     public Boolean UpdateProduct(long id, Product pr) {
@@ -49,9 +50,12 @@ public class ProductService {
         return false;
     }
 
-    public void deleteProduct(Long id) {
+    public Product deleteProduct(Long id) {
         Optional<Product> prod = repository.findById(id);
-        if (prod.isPresent())
+        if (prod.isPresent()) {
             repository.deleteById(id);
+            return prod.get();
+        }
+        return null;
     }
 }
