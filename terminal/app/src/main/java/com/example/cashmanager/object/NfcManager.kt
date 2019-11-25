@@ -46,7 +46,7 @@ object NfcManager {
     }
 
     fun buildTagViews(msgs: Array<NdefMessage?>): String {
-        if (msgs == null || msgs.size == 0) return ""
+        if (msgs.size == 0) return ""
 
         var text = ""
         val payload = msgs[0]!!.records[0].payload

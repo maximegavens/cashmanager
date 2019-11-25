@@ -10,17 +10,17 @@ import com.example.cashmanager.service.ProductService
 class BillViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var products: MutableLiveData<MutableList<Product?>>
 
-    fun getAllProduct(ipServer: String): LiveData<MutableList<Product?>> {
+    fun getAllProduct(): LiveData<MutableList<Product?>> {
         if(!::products.isInitialized) {
             products = MutableLiveData()
             products.value = mutableListOf<Product?>()
         }
-        getAll(ipServer)
+        getAll()
         return products
     }
 
-    private fun getAll(ipServer: String) {
-        val service = ProductService(ipServer)
+    private fun getAll() {
+        val service = ProductService()
         products = service.getAllProduct()
     }
 }

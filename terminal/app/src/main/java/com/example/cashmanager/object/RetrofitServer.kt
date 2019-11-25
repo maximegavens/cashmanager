@@ -9,9 +9,15 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitServer {
 
-    private val okHttpClient = OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS).build()
+    private val okHttpClient = OkHttpClient.Builder()
+        .connectTimeout(10, TimeUnit.SECONDS)
+        .build()
 
-    var BASE_URL = "None"
+    /**
+     * Replace your BASE_URL by your local ip server
+     */
+    /*const val BASE_URL = "http://192.168.1.15:8080"*/
+    private val BASE_URL = "http://192.168.43.209:8080"
 
     val instance: ApiService by lazy {
         val retrofit = Retrofit.Builder()

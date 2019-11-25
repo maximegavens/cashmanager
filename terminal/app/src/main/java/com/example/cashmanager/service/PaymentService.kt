@@ -9,21 +9,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PaymentService(ipServer: String) {
-
-    private val url = "http://".plus(ipServer).plus(":8080")
-    private val retrofitServer = RetrofitServer
-
-    init {
-        retrofitServer.BASE_URL = url
-    }
+class PaymentService {
 
     fun sendPayment(userAccount: String, billAmount: String): MutableLiveData<String> {
         val data = MutableLiveData<String>()
         val account = RequestBody.create(MediaType.parse("text/plain"), userAccount)
         val amount = RequestBody.create(MediaType.parse("text/plain"), billAmount)
 
-        retrofitServer.instance.sendPayment(account, amount).enqueue(object: Callback<String> {
+        RetrofitServer.instance.sendPayment(account, amount).enqueue(object: Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 println("Access server OK")
                 data.value = response.body()

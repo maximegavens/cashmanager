@@ -11,15 +11,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
 
         <TextView
             style="@style/MyTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
-            android:text="@string/authTitle"
-            ></TextView>
+            android:text="@string/authTitle"/>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/MyTextField"
@@ -28,13 +37,14 @@
             android:layout_marginHorizontal="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/EditTextServerId"
+                android:id="@+id/EditTextUserLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Server ID"
-                android:inputType="number"/>
+                android:inputType="number" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/MyTextField"
             android:layout_width="match_parent"
@@ -44,11 +54,11 @@
             android:layout_marginBottom="15dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/EditTextServerPassword"
+                android:id="@+id/EditTextUserPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Server password"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="login"
-            android:text="@string/authSubmit"></Button>
+            android:text="@string/authSubmit"/>
 
         <Button
             android:id="@+id/secondView"
@@ -66,15 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="accessSecondView"
-            android:text="@string/cashRegisterAccess"></Button>
-
-        <Button
-            android:id="@+id/nfcView"
-            style="@style/MyButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="accessNfc"
-            android:text="@string/nfc"></Button>
+            android:text="@string/cashRegisterAccess"/>
 
         <Button
             android:id="@+id/generatorView"
@@ -82,17 +84,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="accessGenerator"
-            android:text="@string/generator"></Button>
+            android:text="@string/generator"/>
     </LinearLayout>
+
     <TextView
-        android:id="@+id/ViewTextConnectedStatus"
-        android:layout_width="fill_parent"
+        android:id="@+id/connectionState"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:hint="@string/authUserLogin"
         android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ips_spinner" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

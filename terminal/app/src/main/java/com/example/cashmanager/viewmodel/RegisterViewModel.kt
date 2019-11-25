@@ -11,13 +11,13 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     private lateinit var service: ProductService
     private lateinit var products: MutableLiveData<MutableList<Product?>>
 
-    fun getAllProduct(ipServer: String): LiveData<MutableList<Product?>> {
+    fun getAllProduct(): LiveData<MutableList<Product?>> {
         if(!::products.isInitialized) {
             products = MutableLiveData()
             products.value = mutableListOf<Product?>()
         }
         if(!::service.isInitialized) {
-            service = ProductService(ipServer)
+            service = ProductService()
         }
         getAll()
         return products
@@ -27,13 +27,13 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         products = service.getAllProduct()
     }
 
-    fun createProduct(p: Product, ipServer: String): LiveData<MutableList<Product?>> {
+    fun createProduct(p: Product): LiveData<MutableList<Product?>> {
         if(!::products.isInitialized) {
             products = MutableLiveData()
             products.value = mutableListOf<Product?>()
         }
         if(!::service.isInitialized) {
-            service = ProductService(ipServer)
+            service = ProductService()
         }
         create(p)
         return products
@@ -45,12 +45,12 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         products.value!!.add(product)
     }
 
-    fun updateProduct(id: Long, p: Product, ipServer: String): LiveData<MutableList<Product?>> {
+    fun updateProduct(id: Long, p: Product): LiveData<MutableList<Product?>> {
         if(!::products.isInitialized) {
             products = MutableLiveData()
         }
         if(!::service.isInitialized) {
-            service = ProductService(ipServer)
+            service = ProductService()
         }
         update(id, p)
         return products
@@ -63,18 +63,18 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
             for (prod in it) {
                 if (prod!!.id_product == id) {
                     prod.name = product!!.name
-                    prod.price = product!!.price
+                    prod.price = product.price
                 }
             }
         }
     }
 
-    fun deleteProduct(id: Long, ipServer: String): LiveData<MutableList<Product?>> {
+    fun deleteProduct(id: Long): LiveData<MutableList<Product?>> {
         if(!::products.isInitialized) {
             products = MutableLiveData()
         }
         if(!::service.isInitialized) {
-            service = ProductService(ipServer)
+            service = ProductService()
         }
         delete(id)
         return products
@@ -85,7 +85,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         val productsCopy = products.value!!.toMutableList()
         println(response)
 
-        productsCopy?.let {
+        productsCopy.let {
             for (prod in it) {
                 if (prod!!.id_product == id) {
                     products.value!!.remove(prod)

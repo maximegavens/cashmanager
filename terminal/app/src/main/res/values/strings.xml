@@ -49,4 +49,5 @@
     <string name="authUserPassword">Password</string>
     <string name="paymentWaiting">Waiting for payment #8230</string>
     <string name="ipserver">IP server</string>
+    <string name="nfc_disabled">Your nfc is disabled, \n redirect to register#8230</string>
 </resources>

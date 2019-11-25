@@ -19,7 +19,6 @@ class RegisterActivity : AppCompatActivity() {
     private var             cart:           MutableList<Product?> = mutableListOf<Product?>()
     private var             total:          Double = 0.0
     private var             radioState:     String = "nfc"
-    private var             ipServer:       String = "localhost"
 
     private lateinit var articleNameInput:  EditText
     private lateinit var articlePriceInput: EditText
@@ -43,8 +42,6 @@ class RegisterActivity : AppCompatActivity() {
         val lastConnection      = intent.getStringExtra("last connection") ?: "None"
         val concatResult        = id.plus(" ").plus(" ").plus(status).plus(" ").plus(lastConnection)
 
-        ipServer                = intent.getStringExtra("server") ?: "localhost"
-
         connectedStatus     = findViewById(R.id.connectionState)
         articleNameInput    = findViewById(R.id.EditTextArticleName)
         articlePriceInput   = findViewById(R.id.EditNumberArticlePrice)
@@ -65,7 +62,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         model = ViewModelProviders.of(this).get(RegisterViewModel::class.java)
-        updateCart(model.getAllProduct(ipServer))
+        updateCart(model.getAllProduct())
     }
 
     fun addProduct(view: View) {
@@ -73,7 +70,7 @@ class RegisterActivity : AppCompatActivity() {
         val price       = articlePriceInput.text.toString()
         val newProduct  = Product(-1, name, price)
 
-        updateCart(model.createProduct(newProduct, ipServer))
+        updateCart(model.createProduct(newProduct))
     }
 
     fun removeProduct(view: View) {
@@ -82,7 +79,7 @@ class RegisterActivity : AppCompatActivity() {
 
         for (product in copyProducts) {
             if (product!!.name == np.first && product.price == np.second) {
-                updateCart(model.deleteProduct(product.id_product, ipServer))
+                updateCart(model.deleteProduct(product.id_product))
                 break
             }
         }
@@ -93,12 +90,8 @@ class RegisterActivity : AppCompatActivity() {
         intent.putExtra("id", "0")
         intent.putExtra("status", "CONNECTED")
         intent.putExtra("last_connection", "today")
-
-        intent.putExtra("total", total.toString())
-        intent.putExtra("cart", cart.toTypedArray())
         intent.putExtra("mode", radioState)
 
-        intent.putExtra("server", ipServer)
         startActivity(intent)
     }
 
@@ -123,7 +116,6 @@ class RegisterActivity : AppCompatActivity() {
     private fun updateCart(newList: LiveData<MutableList<Product?>>) {
         newList.observe(this,
             Observer<MutableList<Product?>> { products ->
-                var total = 0.0
                 if (products != null) {
                     cart.clear()
                     for (product in products) {

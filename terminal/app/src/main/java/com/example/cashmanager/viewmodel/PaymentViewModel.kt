@@ -9,13 +9,13 @@ class PaymentViewModel(application: Application) : AndroidViewModel(application)
     private lateinit var service: PaymentService
     private lateinit var response: MutableLiveData<String>
 
-    fun sendPayment(account: String, amount: String, ipServer: String): MutableLiveData<String> {
+    fun sendPayment(account: String, amount: String): MutableLiveData<String> {
         if(!::response.isInitialized) {
             response = MutableLiveData()
             response.value = String()
         }
         if(!::service.isInitialized) {
-            service = PaymentService(ipServer)
+            service = PaymentService()
         }
         send(account, amount)
         return response
