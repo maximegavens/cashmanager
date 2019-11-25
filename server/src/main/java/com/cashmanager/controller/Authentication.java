@@ -15,9 +15,9 @@ public class Authentication {
     @Autowired
     private AuthenticationService service;
 
-    @PostMapping("/signin")
-    public ResponseEntity<User> SignIn(@RequestBody User user) {
-        User us = service.SignIn(user);
+    @PostMapping("/sign_in")
+    public ResponseEntity<User> SignIn(@RequestParam(value = "login") String login, @RequestParam(value = "password") String password) {
+        User us = service.SignIn(login, password);
         if (us != null) {
             return new ResponseEntity<User>(us, new HttpHeaders(), HttpStatus.OK);
         }
