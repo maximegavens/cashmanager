@@ -18,17 +18,14 @@ import kotlin.concurrent.schedule
 import androidx.lifecycle.Observer
 
 class BillActivity : AppCompatActivity() {
+    private lateinit var model:             BillViewModel
 
     private lateinit var connectedStatus:   TextView
     private lateinit var cartView:          ListView
     private lateinit var totalView:         TextView
     private lateinit var adapter:           CartBillAdapter
 
-    private lateinit var mode:              String
-    private lateinit var server:            String
-
-    private lateinit var model:             BillViewModel
-
+    private var mode =                      "nfc"
     private var cart =                      mutableListOf<Product>()
     private var total =                     0.0
 
@@ -42,9 +39,7 @@ class BillActivity : AppCompatActivity() {
         val lastConnection      = intent.getStringExtra("last connection") ?: "None"
         val concatResult        = id.plus(" ").plus(" ").plus(status).plus(" ").plus(lastConnection)
 
-        /*cart    = intent.getSerializableExtra("cart") as Array<Product>*/
         mode    = intent.getStringExtra("mode") ?: "nfc"
-        server  = intent.getStringExtra("server") ?: "localhost"
 
         connectedStatus     = findViewById(R.id.connectionState)
         cartView            = findViewById(R.id.billList)
@@ -94,7 +89,6 @@ class BillActivity : AppCompatActivity() {
         intent.putExtra("last_connection", "today")
 
         intent.putExtra("total", total.toString())
-        intent.putExtra("server", server)
         startActivity(intent)
     }
 

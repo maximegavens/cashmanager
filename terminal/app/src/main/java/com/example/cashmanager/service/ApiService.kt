@@ -28,5 +28,5 @@ interface ApiService {
 
     @Multipart
     @POST("payment")
-    fun sendPayment(@Part("bank_account") account: RequestBody, @Part("amount") amount: RequestBody): Call<String>
+    fun sendPayment(@Part("account") account: RequestBody, @Part("amount") amount: RequestBody): Call<Any>
 }

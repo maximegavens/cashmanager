@@ -14,14 +14,12 @@ class PaymentViewModel(application: Application) : AndroidViewModel(application)
             response = MutableLiveData()
             response.value = String()
         }
-        if(!::service.isInitialized) {
-            service = PaymentService()
-        }
         send(account, amount)
         return response
     }
 
     private fun send(account: String, amount: String) {
+        service = PaymentService()
         response = service.sendPayment(account, amount)
     }
 }

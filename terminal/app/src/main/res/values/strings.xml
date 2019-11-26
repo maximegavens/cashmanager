@@ -34,7 +34,7 @@
     <string name="hint_your_message">my message</string>
     <string name="label_your_message">my label message</string>
     <string name="title_btn_set">My btn set</string>
-    <string name="messageReceive"> </string>
+    <string name="messageReceive">Empty message</string>
     <string name="receiveTitle">NFC Reader</string>
     <string name="nfc">NFC</string>
     <string name="cameraPreviewLabel">Please focus on QR code</string>
