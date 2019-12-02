@@ -5,11 +5,13 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.cashmanager.model.Product
+import com.example.cashmanager.service.PaymentService
 import com.example.cashmanager.service.ProductService
 
 class RegisterViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var service: ProductService
     private lateinit var products: MutableLiveData<MutableList<Product?>>
+    private lateinit var total: MutableLiveData<String>
 
     fun getAllProduct(): LiveData<MutableList<Product?>> {
         if(!::products.isInitialized) {
@@ -40,33 +42,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     }
 
     private fun create(p: Product) {
-        val product = service.createProduct(p).value
-        println(product!!.name)
-        products.value!!.add(product)
-    }
-
-    fun updateProduct(id: Long, p: Product): LiveData<MutableList<Product?>> {
-        if(!::products.isInitialized) {
-            products = MutableLiveData()
-        }
-        if(!::service.isInitialized) {
-            service = ProductService()
-        }
-        update(id, p)
-        return products
-    }
-
-    private fun update(id: Long, p: Product) {
-        val product = service.updateProduct(id, p).value
-
-        products.value?.let {
-            for (prod in it) {
-                if (prod!!.id_product == id) {
-                    prod.name = product!!.name
-                    prod.price = product.price
-                }
-            }
-        }
+        products = service.createProduct(p);
     }
 
     fun deleteProduct(id: Long): LiveData<MutableList<Product?>> {
@@ -81,16 +57,20 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     }
 
     private fun delete(id: Long) {
-        val response = service.deleteProduct(id).value
-        val productsCopy = products.value!!.toMutableList()
-        println(response)
+        products = service.deleteProduct(id)
+    }
 
-        productsCopy.let {
-            for (prod in it) {
-                if (prod!!.id_product == id) {
-                    products.value!!.remove(prod)
-                }
-            }
+    fun getTotal(): LiveData<String> {
+        if(!::total.isInitialized) {
+            total = MutableLiveData()
+            total.value = String()
         }
+        recoverTotal()
+        return total
+    }
+
+    private fun recoverTotal() {
+        val service = PaymentService()
+        total = service.getTotal()
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/stock")
@@ -17,15 +19,13 @@ public class Management {
     ProductService service;
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product prod) {
+    public ResponseEntity<List<Product>> createProduct(@RequestBody Product prod) {
         Product p = service.createProduct(prod);
         if (p != null) {
-            System.out.println(p.getName());
-            System.out.println(p.getPrice());
-            System.out.println(p.getId_product());
-            return new ResponseEntity<Product>(p, new HttpHeaders(), HttpStatus.OK);
+            List<Product> list_prod = service.getAllProduct();
+            return new ResponseEntity<List<Product>>(list_prod, new HttpHeaders(), HttpStatus.OK);
         }
-        return new ResponseEntity<Product>(p, new HttpHeaders(), HttpStatus.FORBIDDEN); 
+        return new ResponseEntity<List<Product>>(null, new HttpHeaders(), HttpStatus.FORBIDDEN);
     }
 
     @PutMapping("/{id}")
@@ -34,11 +34,13 @@ public class Management {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable("id") long id) {
+    public ResponseEntity<List<Product>> deleteProduct(@PathVariable("id") long id) {
         Product p = service.deleteProduct(id);
         if (p != null) {
-            return new ResponseEntity<Product>(p, new HttpHeaders(), HttpStatus.OK);
+            List<Product> list_prod = service.getAllProduct();
+            return new ResponseEntity<List<Product>>(list_prod, new HttpHeaders(), HttpStatus.OK);
         }
-        return new ResponseEntity<Product>(p, new HttpHeaders(), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<List<Product>>(null, new HttpHeaders(), HttpStatus.FORBIDDEN);
     }
+
 }

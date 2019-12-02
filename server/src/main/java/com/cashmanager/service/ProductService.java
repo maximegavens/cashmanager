@@ -29,15 +29,10 @@ public class ProductService {
     }
 
     public Product createProduct(Product pr) {
-        System.out.println(pr.getName());
-        System.out.println(pr.getPrice());
-        if (!repository.existsProductByName(pr.getName())) {
-            Product prod = new Product();
-            prod.setName(pr.getName());
-            prod.setPrice(pr.getPrice());
-            return repository.save(prod);
-        }
-        return null;
+        Product prod = new Product();
+        prod.setName(pr.getName());
+        prod.setPrice(pr.getPrice());
+        return repository.save(prod);
     }
 
     public Boolean UpdateProduct(long id, Product pr) {

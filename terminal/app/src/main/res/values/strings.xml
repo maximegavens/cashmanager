@@ -1,4 +1,7 @@
 <resources>
+    <string name="connectionStatusLabel">Status server:</string>
+    <string name="connectionStatus">connection REFUSED</string>
+
     <string name="app_name">CashManager</string>
     <string name="hello_world">HelloWorld</string>
     <string name="authTitle">Authentication</string>
@@ -47,7 +50,7 @@
 
     <string name="authUserLogin">Login</string>
     <string name="authUserPassword">Password</string>
-    <string name="paymentWaiting">Waiting for payment #8230</string>
+    <string name="paymentWaiting">Waiting for payment...</string>
     <string name="ipserver">IP server</string>
-    <string name="nfc_disabled">Your nfc is disabled, \n redirect to register#8230</string>
+    <string name="nfc_disabled">Your nfc is disabled, change payment mode...</string>
 </resources>

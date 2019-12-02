@@ -5,6 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -15,7 +25,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -93,7 +103,7 @@
     <ImageView
         android:id="@+id/imageSuccess"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/payment_success"
         app:layout_constraintEnd_toEndOf="parent"
@@ -103,7 +113,7 @@
     <ImageView
         android:id="@+id/imageFailed"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/payment_failed"
         app:layout_constraintEnd_toEndOf="parent"
@@ -112,7 +122,7 @@
 
     <TextView
         android:id="@+id/messageReceive"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
@@ -130,11 +140,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.488" />
+        app:layout_constraintTop_toBottomOf="@+id/messageReceive" />
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -150,12 +158,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="5dp"
-            android:text="@string/connectionStateLabel" />
+            android:text="@string/connectionStatusLabel"/>
 
         <TextView
-            android:id="@+id/connectionState"
+            android:id="@+id/connectionStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/outOfConnection" />
+            android:text="@string/connectionStatus"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

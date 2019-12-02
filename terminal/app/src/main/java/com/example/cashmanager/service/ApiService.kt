@@ -15,15 +15,15 @@ interface ApiService {
     @GET("market")
     fun getAllProduct(): Call<MutableList<Product?>>
 
+    @GET("market/total")
+    fun getTotal(): Call<Any>
+
 
     @POST("stock")
-    fun createProduct(@Body body: Product): Call<Product>
-
-    @PUT("stock/{id}")
-    fun updateProduct(@Path("id") id: Long, @Body body: Product): Call<Product>
+    fun createProduct(@Body body: Product): Call<MutableList<Product?>>
 
     @DELETE("stock/{id}")
-    fun deleteProduct(@Path("id") id: Long): Call<Product>
+    fun deleteProduct(@Path("id") id: Long): Call<MutableList<Product?>>
 
 
     @Multipart

@@ -26,6 +26,25 @@ class PaymentService {
                 data.value = resp.getValue("message")
             }
             override fun onFailure(call: Call<Any>, t: Throwable) {
+                data.value = null
+                println(t.message)
+            }
+        })
+
+        return data
+    }
+
+    fun getTotal(): MutableLiveData<String> {
+        val data = MutableLiveData<String>()
+
+        RetrofitServer.instance.getTotal().enqueue(object: Callback<Any> {
+            override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                println("Access server OK")
+                val resp = response.body() as LinkedTreeMap<String, String>
+                data.value = resp.getValue("total")
+            }
+            override fun onFailure(call: Call<Any>, t:Throwable) {
+                data.value = null
                 println(t.message)
             }
         })

@@ -9,7 +9,6 @@ import com.example.cashmanager.model.User
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import retrofit2.Callback
-import kotlin.coroutines.coroutineContext
 
 class LoginService {
 
@@ -20,14 +19,11 @@ class LoginService {
 
         RetrofitServer.instance.login(login, password).enqueue(object: Callback<User>{
             override fun onResponse(call: Call<User>, response: Response<User>) {
-                println("Access server OK")
-                println(response.code())
-                println(response.body())
                 data.value = response.body()
             }
             override fun onFailure(call: Call<User>, t: Throwable) {
-                println(t.message)
                 data.value = null
+                println(t.message)
             }
         })
 

@@ -1,7 +1,6 @@
 package com.example.cashmanager.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -14,53 +13,39 @@ import com.example.cashmanager.model.Product
 import com.example.cashmanager.adapter.CartRegisterAdapter
 import com.example.cashmanager.viewmodel.RegisterViewModel
 
-class RegisterActivity : AppCompatActivity() {
-
-    private var             cart:           MutableList<Product?> = mutableListOf<Product?>()
-    private var             total:          Double = 0.0
-    private var             radioState:     String = "nfc"
-
+class RegisterActivity : BaseActivity() {
     private lateinit var articleNameInput:  EditText
     private lateinit var articlePriceInput: EditText
-    private lateinit var connectedStatus:   TextView
+    private lateinit var connectionStatus:  TextView
     private lateinit var cartView:          ListView
-    private lateinit var adapter: CartRegisterAdapter
+    private lateinit var adapter:           CartRegisterAdapter
     private lateinit var totalView:         TextView
     private lateinit var totalAndPayLayout: ConstraintLayout
     private lateinit var paymentMode:       RadioGroup
-
     private lateinit var model:             RegisterViewModel
+    private var attempt =                   3
+    private var cart:                       MutableList<Product?> = mutableListOf<Product?>()
+    private var radioState:                 String = "nfc"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-
-        val intent              = getIntent()
-        val id                  = intent.getStringExtra("id") ?: "None"
-        val status              = intent.getStringExtra("status") ?: "None"
-        val lastConnection      = intent.getStringExtra("last connection") ?: "None"
-        val concatResult        = id.plus(" ").plus(" ").plus(status).plus(" ").plus(lastConnection)
-
-        connectedStatus     = findViewById(R.id.connectionState)
-        articleNameInput    = findViewById(R.id.EditTextArticleName)
-        articlePriceInput   = findViewById(R.id.EditNumberArticlePrice)
-        adapter             = CartRegisterAdapter(this, cart)
-        cartView            = findViewById(R.id.productListView)
-        totalView           = findViewById(R.id.TotalPrice)
-        totalAndPayLayout   = findViewById(R.id.totalAndPay)
-        paymentMode         = findViewById(R.id.radioPayment)
-
-        connectedStatus.text    = concatResult
+        super.onCreate(savedInstanceState)
+        connectionStatus        = findViewById(R.id.connectionStatus)
+        articleNameInput        = findViewById(R.id.EditTextArticleName)
+        articlePriceInput       = findViewById(R.id.EditNumberArticlePrice)
+        adapter                 = CartRegisterAdapter(this, cart)
+        cartView                = findViewById(R.id.productListView)
+        totalView               = findViewById(R.id.TotalPrice)
+        totalAndPayLayout       = findViewById(R.id.totalAndPay)
+        paymentMode             = findViewById(R.id.radioPayment)
+        connectionStatus.text   = "connection IN PROGRESS"
         cartView.adapter        = adapter
-
         paymentMode.setOnCheckedChangeListener { group, checkedId ->
             val radio: RadioButton = findViewById(checkedId)
-            Toast.makeText(applicationContext," On checked change : ${radio.text}",
-                Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext," On checked change : ${radio.text}",Toast.LENGTH_SHORT).show()
             radioState = radio.text.toString()
         }
-
         model = ViewModelProviders.of(this).get(RegisterViewModel::class.java)
         updateCart(model.getAllProduct())
     }
@@ -74,8 +59,8 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     fun removeProduct(view: View) {
-        val np = getNameAndPriceFromArticleView(view) ?: return
-        val copyProducts = cart.toList()
+        val np              = getNameAndPriceFromArticleView(view) ?: return
+        val copyProducts    = cart.toList()
 
         for (product in copyProducts) {
             if (product!!.name == np.first && product.price == np.second) {
@@ -87,52 +72,79 @@ class RegisterActivity : AppCompatActivity() {
 
     fun paymentProceed(view: View) {
         val intent = Intent(applicationContext, BillActivity::class.java)
-        intent.putExtra("id", "0")
-        intent.putExtra("status", "CONNECTED")
-        intent.putExtra("last_connection", "today")
-        intent.putExtra("mode", radioState)
 
+        intent.putExtra("mode", radioState)
         startActivity(intent)
     }
 
     private fun getNameAndPriceFromArticleView(view: View): Pair<String, String>? {
         val parent = view.parent
+        var nameView: View
+        var priceView: View
 
         if (parent is ConstraintLayout) {
-            var nameView    = parent.getViewById(R.id.articleName) ?: return null
-            var priceView   = parent.getViewById(R.id.articlePrice) ?: return null
+            nameView    = parent.getViewById(R.id.articleName) ?: return null
+            priceView   = parent.getViewById(R.id.articlePrice) ?: return null
+            nameView as TextView
+            priceView as TextView
 
-            nameView    = nameView as TextView
-            priceView   = priceView as TextView
-
-            val name    = nameView.text as String
-            val price   = priceView.text as String
-
-            return Pair(name, price)
+            return Pair(nameView.text.toString(), priceView.text.toString())
         }
         return null
     }
 
     private fun updateCart(newList: LiveData<MutableList<Product?>>) {
+        progressBar.visibility = View.VISIBLE
         newList.observe(this,
             Observer<MutableList<Product?>> { products ->
+                progressBar.visibility = View.INVISIBLE
                 if (products != null) {
+                    attempt = 3
+                    connectionStatus.text = "connection ESTABLISHED"
                     cart.clear()
                     for (product in products) {
                         println(product?.name)
                         cart.add(product)
-                        total = total.plus(product!!.price.toDouble())
                     }
-                    totalView.text = total.toString()
                     adapter.notifyDataSetChanged()
                     if (cart.isEmpty()) {
+                        totalView.visibility = View.INVISIBLE
                         totalAndPayLayout.visibility = View.INVISIBLE
                     } else {
+                        updateTotal()
+                        totalView.visibility = View.VISIBLE
                         totalAndPayLayout.visibility = View.VISIBLE
                     }
                 } else {
-                    Toast.makeText(this, "Products is null", Toast.LENGTH_SHORT).show()
+                    connectionStatus.text = "connection REFUSED"
+                    if (attempt == 0) {
+                        Toast.makeText(this, "Sorry connection server refused, back to authentication proceed...", Toast.LENGTH_SHORT).show()
+                        backToAuthentication()
+                    } else {
+                        attempt = attempt.minus(1)
+                        Toast.makeText(this, "Start new connection, left ".plus(attempt).plus(" attempt."), Toast.LENGTH_SHORT).show()
+                        updateTotal()
+                    }
                 }
             })
+    }
+
+    private fun updateTotal() {
+        progressBar.visibility = View.VISIBLE
+        model.getTotal().observe(this,
+            Observer<String> { total ->
+                progressBar.visibility = View.INVISIBLE
+                if (total != null) {
+                    connectionStatus.text   = "connection ESTABLISHED"
+                    totalView.text = total
+                } else {
+                    connectionStatus.text   = "connection REFUSED"
+                }
+            })
+    }
+
+    private fun backToAuthentication() {
+        val intent = Intent(applicationContext, MainActivity::class.java)
+        startActivity(intent)
     }
 }

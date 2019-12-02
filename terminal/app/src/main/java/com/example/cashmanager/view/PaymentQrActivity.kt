@@ -7,67 +7,46 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.example.cashmanager.R
-import com.example.cashmanager.model.Product
 import com.example.cashmanager.viewmodel.PaymentViewModel
 import com.google.zxing.integration.android.IntentIntegrator
-import java.util.*
-import kotlin.concurrent.schedule
 import androidx.lifecycle.Observer
 
-class PaymentQrActivity : AppCompatActivity() {
-
-    private lateinit var connectedStatus:   TextView
+class PaymentQrActivity : BaseActivity() {
+    private lateinit var connectionStatus:  TextView
     private lateinit var totalView:         TextView
     private lateinit var paymentStatusView: TextView
     private lateinit var paymentStatus:     TextView
     private lateinit var scanTextView:      TextView
     private lateinit var imageSuccess:      ImageView
     private lateinit var imageFailed:       ImageView
-
     private lateinit var model:             PaymentViewModel
-
-    // QR code
-    private var btnScan:            Button? = null
-    private var QRCardRefNumber:    String? = null
-    private var CardExpNumber:      String? = null
-    private var total:              String? = null
+    private var btnScan:                    Button? = null
+    private var QRCardRefNumber:            String? = null
+    private var CardExpNumber:              String? = null
+    private var attempt =                   2
+    private var paymentAttempt =            3
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_payment)
-
-        val intent              = getIntent()
-        val id                  = intent.getStringExtra("id") ?: "None"
-        val status              = intent.getStringExtra("status") ?: "None"
-        val lastConnection      = intent.getStringExtra("last connection") ?: "None"
-        val concatResult        = id.plus(" ").plus(" ").plus(status).plus(" ").plus(lastConnection)
-
-        connectedStatus     = findViewById(R.id.connectionState)
-        totalView           = findViewById(R.id.billTotal)
-        paymentStatusView   = findViewById(R.id.paymentStatus)
-        imageSuccess        = findViewById(R.id.imageSuccess)
-        imageFailed         = findViewById(R.id.imageFailed)
-        paymentStatus       = findViewById(R.id.paymentStatus)
-
-        //QR code
-        btnScan             = findViewById(R.id.cameraButton)
-        scanTextView        = findViewById(R.id.messageReceive)
-
-        connectedStatus.text    = concatResult
-        totalView.text          = intent.getStringExtra("total") ?: "None"
-        total                   = intent.getStringExtra("total") ?: "0.0"
-        paymentStatus.text      = "Waiting for payment..."
-
-        imageSuccess.visibility   = View.INVISIBLE
-        imageFailed.visibility    = View.INVISIBLE
-        scanTextView.visibility   = View.INVISIBLE
-
+        super.onCreate(savedInstanceState)
+        connectionStatus            = findViewById(R.id.connectionStatus)
+        totalView                   = findViewById(R.id.billTotal)
+        paymentStatusView           = findViewById(R.id.paymentStatus)
+        imageSuccess                = findViewById(R.id.imageSuccess)
+        imageFailed                 = findViewById(R.id.imageFailed)
+        paymentStatus               = findViewById(R.id.paymentStatus)
+        btnScan                     = findViewById(R.id.cameraButton)
+        scanTextView                = findViewById(R.id.messageReceive)
+        connectionStatus.text       = "connection IN PROGRESS"
+        paymentStatus.text          = "Waiting for payment..."
+        imageSuccess.visibility     = View.INVISIBLE
+        imageFailed.visibility      = View.INVISIBLE
+        scanTextView.text           = ""
         btnScan!!.setOnClickListener {
             IntentIntegrator(this).initiateScan()
-
         }
-
         model = ViewModelProviders.of(this).get(PaymentViewModel::class.java)
+        updateTotal()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -79,29 +58,42 @@ class PaymentQrActivity : AppCompatActivity() {
             } else {
                 println(result.contents.toString())
                 if (parseMessageReceive(result.contents.toString())) {
-                    scanTextView.text = "QRCard reference correct !"
-                    paymentStatus.text = "Payment proceed..."
-                    scanTextView.visibility = View.VISIBLE
-                    btnScan!!.visibility = View.INVISIBLE
-                    model.sendPayment(QRCardRefNumber!!, total!!).observe(this,
+                    scanTextView.text           = "QRCard reference correct"
+                    paymentStatus.text          = "Payment proceed..."
+                    btnScan!!.visibility        = View.INVISIBLE
+                    progressBar.visibility = View.VISIBLE
+                    model.sendPayment(QRCardRefNumber!!, totalView.text.toString()).observe(this,
                         Observer<String> { message ->
+                            progressBar.visibility = View.INVISIBLE
                             println("OBSERVER")
                             println(message)
                             if (message == "payment succeed") {
+                                imageFailed.visibility = View.INVISIBLE
                                 imageSuccess.visibility = View.VISIBLE
-                                paymentStatus.text = "Payment success!"
+                                paymentStatus.text = "Payment success"
                                 totalView.text = "0"
+
+                            } else if (paymentAttempt != 0)  {
+                                if (message == "payment refused") {
+                                    scanTextView.text = "payment refused, left ".plus(paymentAttempt).plus(" attempt")
+                                } else {
+                                    scanTextView.text = "card reference not found, left ".plus(paymentAttempt).plus(" attempt")
+                                }
+                                imageFailed.visibility = View.VISIBLE
+                                btnScan!!.visibility = View.VISIBLE
+                                paymentStatus.text = "payment error"
+                                paymentAttempt = paymentAttempt.minus(1)
                             } else {
                                 imageFailed.visibility = View.VISIBLE
-                                paymentStatus.text = "Payment error!"
-                                scanTextView.text = "Payment refused"
+                                btnScan!!.visibility = View.VISIBLE
+                                paymentStatus.text = "payment error"
+                                scanTextView.text = "back to authentication"
+                                backToAuthentication()
                             }
                         })
                 } else {
                     scanTextView.text = "QRCard reference improper !"
                     imageFailed.visibility = View.VISIBLE
-                    scanTextView.visibility = View.VISIBLE
-
                 }
             }
         } else {
@@ -129,5 +121,32 @@ class PaymentQrActivity : AppCompatActivity() {
 
             return true
         }
+    }
+
+    private fun updateTotal() {
+        progressBar.visibility = View.VISIBLE
+        model.getTotal().observe(this,
+            Observer<String> { total ->
+                progressBar.visibility = View.INVISIBLE
+                if (total != null) {
+                    connectionStatus.text   = "connection ESTABLISHED"
+                    totalView.text = total
+                } else {
+                    connectionStatus.text   = "connection REFUSED"
+                    if (attempt == 0) {
+                        Toast.makeText(this, "Sorry connection server refused, back to authentication proceed...", Toast.LENGTH_SHORT).show()
+                        backToAuthentication()
+                    } else {
+                        Toast.makeText(this, "Start new connection, left ".plus(attempt).plus(" attempt."), Toast.LENGTH_SHORT).show()
+                        updateTotal()
+                    }
+                    attempt = attempt.minus(1)
+                }
+            })
+    }
+
+    private fun backToAuthentication() {
+        val intent = Intent(applicationContext, MainActivity::class.java)
+        startActivity(intent)
     }
 }
