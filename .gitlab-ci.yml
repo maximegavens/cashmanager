@@ -1,0 +1,5 @@
+job_build:
+  only:
+    refs:
+      - master
+  script: "docker-compose up -d --build"
