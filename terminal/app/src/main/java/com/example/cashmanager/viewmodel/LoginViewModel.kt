@@ -10,16 +10,16 @@ import com.example.cashmanager.service.LoginService
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var user: LiveData<User>
 
-    fun getUser(login: String, password: String): LiveData<User> {
+    fun getUser(login: String, password: String, ip: String): LiveData<User> {
         if (!::user.isInitialized) {
             user = MutableLiveData()
         }
-        loadUser(login, password)
+        loadUser(login, password, ip)
         return user
     }
 
-    private fun loadUser(id: String, password: String) {
+    private fun loadUser(login: String, password: String, ip: String) {
         val repo = LoginService()
-        user = repo.getUserByIdAndPassword(id, password)
+        user = repo.getUserByIdAndPassword(login, password, ip)
     }
 }

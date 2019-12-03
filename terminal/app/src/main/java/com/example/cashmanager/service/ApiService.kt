@@ -25,6 +25,9 @@ interface ApiService {
     @DELETE("stock/{id}")
     fun deleteProduct(@Path("id") id: Long): Call<MutableList<Product?>>
 
+    @DELETE("stock")
+    fun deleteAllProduct(): Call<MutableList<Product?>>
+
 
     @Multipart
     @POST("payment")

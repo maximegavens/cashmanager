@@ -43,24 +43,24 @@
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="40dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/billList">
-
-        <TextView
-            android:id="@+id/billTotalLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/totalPriceLabel" />
 
         <TextView
             android:id="@+id/billTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/totalPrice" />
+            android:layout_marginEnd="18dp"
+            android:text="@string/totalPrice"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/euro" />
     </LinearLayout>
 
     <LinearLayout

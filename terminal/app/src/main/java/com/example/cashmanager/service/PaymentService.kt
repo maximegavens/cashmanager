@@ -1,9 +1,7 @@
 package com.example.cashmanager.service
 
 import androidx.lifecycle.MutableLiveData
-import com.example.cashmanager.`object`.RetrofitServer
-import com.example.cashmanager.model.Product
-import com.google.gson.Gson
+import com.example.cashmanager.`object`.RetrofitClient.retrofit
 import com.google.gson.internal.LinkedTreeMap
 import okhttp3.MediaType
 import okhttp3.RequestBody
@@ -18,7 +16,7 @@ class PaymentService {
         val account = RequestBody.create(MediaType.parse("text/plain"), userAccount)
         val amount = RequestBody.create(MediaType.parse("text/plain"), billAmount)
 
-        RetrofitServer.instance.sendPayment(account, amount).enqueue(object: Callback<Any> {
+        retrofit!!.sendPayment(account, amount).enqueue(object: Callback<Any> {
             override fun onResponse(call: Call<Any>, response: Response<Any>) {
                 println("Access server OK")
                 println(response.body())
@@ -37,7 +35,7 @@ class PaymentService {
     fun getTotal(): MutableLiveData<String> {
         val data = MutableLiveData<String>()
 
-        RetrofitServer.instance.getTotal().enqueue(object: Callback<Any> {
+        retrofit!!.getTotal().enqueue(object: Callback<Any> {
             override fun onResponse(call: Call<Any>, response: Response<Any>) {
                 println("Access server OK")
                 val resp = response.body() as LinkedTreeMap<String, String>

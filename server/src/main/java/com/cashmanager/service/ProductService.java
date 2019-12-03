@@ -54,4 +54,8 @@ public class ProductService {
         }
         return null;
     }
+
+    public void deleteAllProduct() {
+        repository.deleteAll();
+    }
 }

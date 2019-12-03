@@ -40,7 +40,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:hint="Server IP">
+            android:hint="IP Server">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/EditTextIPServer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/MyTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:hint="Login">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/EditTextUserLogin"
@@ -57,7 +72,7 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="15dp"
-            android:hint="Server password">
+            android:hint="Password">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/EditTextUserPassword"

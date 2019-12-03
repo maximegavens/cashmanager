@@ -6,9 +6,18 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="red">#FF0000</color>
+    <color name="fer">#5f5f5f</color>
+    <color name="aluminium">#cbcbcb</color>
+    <color name="or">#fed701</color>
+    <color name="bois">#873b00</color>
+
 
     <!-- Violet colors -->
-    <color name="primaryColor">#436d53</color>
-    <color name="primaryLightColor">#709b7f</color>
-    <color name="primaryDarkColor">#18422a</color>
+    <color name="primaryColor">#229954</color>
+    <color name="primaryLightColor">#52be80</color>
+    <color name="primaryDarkColor"> #196f3d </color>
+
+    <color name="secondColor">#a93226</color>
+    <color name="secondLightColor">#cd6155</color>
+    <color name="secondDarkColor">#7b241c</color>
 </resources>

@@ -60,6 +60,17 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         products = service.deleteProduct(id)
     }
 
+    fun deleteAllProduct(): LiveData<MutableList<Product?>> {
+        if(!::products.isInitialized) {
+            products = MutableLiveData()
+        }
+        if(!::service.isInitialized) {
+            service = ProductService()
+        }
+        products = service.deleteAllProduct()
+        return products
+    }
+
     fun getTotal(): LiveData<String> {
         if(!::total.isInitialized) {
             total = MutableLiveData()

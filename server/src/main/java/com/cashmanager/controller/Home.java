@@ -39,7 +39,7 @@ public class Home {
         for(Product product: list_prod) {
             total = total + product.getPrice();
         }
-        System.out.println(total);
+        total = Math.round(total * 1000d) / 1000d;
         json.put("total", total.toString());
         return new ResponseEntity<Object>(json, new HttpHeaders(), HttpStatus.OK);
     }

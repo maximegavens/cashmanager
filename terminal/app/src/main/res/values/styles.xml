@@ -10,7 +10,13 @@
 
     <style name="MyButton" parent="@style/Widget.MaterialComponents.Button">
         <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/primaryColor</item>
+    </style>
 
+    <style name="MyRedButton" parent="@style/Widget.MaterialComponents.Button">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/secondLightColor</item>
     </style>
 
     <style name="MyTextField" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"></style>

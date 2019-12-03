@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -41,6 +42,13 @@ public class Management {
             return new ResponseEntity<List<Product>>(list_prod, new HttpHeaders(), HttpStatus.OK);
         }
         return new ResponseEntity<List<Product>>(null, new HttpHeaders(), HttpStatus.FORBIDDEN);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<List<Product>> deleteAllProduct() {
+        service.deleteAllProduct();
+        List<Product> list_prod = new ArrayList<Product>();
+        return new ResponseEntity<List<Product>>(list_prod, new HttpHeaders(), HttpStatus.OK);
     }
 
 }

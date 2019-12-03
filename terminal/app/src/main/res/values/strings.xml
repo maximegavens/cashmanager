@@ -1,6 +1,10 @@
 <resources>
     <string name="connectionStatusLabel">Status server:</string>
     <string name="connectionStatus">connection REFUSED</string>
+    <string name="bois">1kg de bois\n 0,28 €</string>
+    <string name="fer">1kg de fer\n 0,084 €</string>
+    <string name="aluminium">1kg de aluminium\n 1,578 €</string>
+    <string name="or">1kg de or\n 48000 €</string>
 
     <string name="app_name">CashManager</string>
     <string name="hello_world">HelloWorld</string>
@@ -25,7 +29,8 @@
     <string name="articlePriceLabel">Price</string>
     <string name="outOfConnection">Out of connection</string>
     <string name="connectionStateLabel">Connection state</string>
-    <string name="totalPriceLabel">Total = </string>
+    <string name="totalPriceLabel">TOTAL</string>
+    <string name="euro">€</string>
     <string name="totalPrice">0</string>
     <string name="billTitle">Recap Bill</string>
     <string name="paymentReference">Payment Reference</string>

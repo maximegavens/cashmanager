@@ -4,20 +4,22 @@ import androidx.lifecycle.MutableLiveData
 import retrofit2.Call
 import retrofit2.Response
 import androidx.lifecycle.LiveData
-import com.example.cashmanager.`object`.RetrofitServer
+import com.example.cashmanager.`object`.RetrofitClient.constructApiService
+import com.example.cashmanager.`object`.RetrofitClient.retrofit
 import com.example.cashmanager.model.User
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import retrofit2.Callback
 
 class LoginService {
-
-    fun getUserByIdAndPassword(userLogin: String, userPassword: String): LiveData<User> {
+    fun getUserByIdAndPassword(userLogin: String, userPassword: String, ip: String): LiveData<User> {
         val data = MutableLiveData<User>()
         val login = RequestBody.create(MediaType.parse("text/plain"), userLogin)
         val password = RequestBody.create(MediaType.parse("text/plain"), userPassword)
 
-        RetrofitServer.instance.login(login, password).enqueue(object: Callback<User>{
+        constructApiService(ip)
+
+        retrofit!!.login(login, password).enqueue(object: Callback<User>{
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 data.value = response.body()
             }
